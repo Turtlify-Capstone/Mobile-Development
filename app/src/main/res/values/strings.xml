@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Turtlify</string>
+
+<!--    About Screen-->
+    <string name="about_version">Turtlify v1.0</string>
+    <string name="about_desc_app">Instantly Identify Turtles</string>
+    <string name="our_mission_title">Our Mission</string>
+    <string name="our_mission_desc">We realise that some turtle and tortoise species are facing the threat of extinction, but public awareness about this issue is still very low. Many people often capture turtles and tortoises to keep as pets or for consumption, without paying attention to whether these species are protected or not. Furthermore, the issue of turtles being found in waters that should not be their habitat is also a crucial problem for the survival of these species. Turtlify provides easily accessible and engaging information about turtles and tortoises, So we can increase public awareness of the importance of protecting these species.</string>
+    <string name="soc_media_title">Our Social Media</string>
+    <string name="soc_media_instagram">Instagram</string>
+    <string name="soc_media_twitter">Twitter</string>
+    <string name="soc_media_email">Email</string>
+
+<!--    Suggestion Screen-->
+    <string name="feedback_title">Give us feedback so we can get better</string>
+    <string name="feedback_radio_title">Feedback type</string>
+    <string name="edit_text_email_hint">Input your email</string>
+    <string name="edit_text_feedback_hint">Input your feedback</string>
+    <string name="submit_feedback">Submit</string>
+
+
 </resources>
