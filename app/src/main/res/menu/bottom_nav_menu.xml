@@ -8,17 +8,22 @@
 
     <item
         android:id="@+id/navigation_maps"
-        android:icon="@drawable/baseline_map_24"
+        android:icon="@drawable/map_location_dot_solid"
         android:title="@string/title_maps" />
 
+<!--    <item-->
+<!--        android:id="@+id/navigation_camera"-->
+<!--        android:icon="@drawable/baseline_camera_alt_24"-->
+<!--        android:title="@string/title_camera" />-->
     <item
-        android:id="@+id/navigation_camera"
-        android:icon="@drawable/baseline_camera_alt_24"
-        android:title="@string/title_camera" />
+        android:id="@+id/fab_camera"
+        android:title=""
+        android:enabled="false"
+        />
 
     <item
         android:id="@+id/navigation_report_turtle"
-        android:icon="@drawable/baseline_report_24"
+        android:icon="@drawable/report_solid"
         android:title="@string/title_report_turtle" />
 
     <item

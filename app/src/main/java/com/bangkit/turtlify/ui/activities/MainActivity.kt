@@ -1,5 +1,6 @@
 package com.bangkit.turtlify.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -30,7 +31,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_maps, R.id.navigation_camera,  R.id.navigation_report_turtle, R.id.navigation_history
             )
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        binding.cameraFab.setOnClickListener{
+            val intent = Intent(this@MainActivity, CameraActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
