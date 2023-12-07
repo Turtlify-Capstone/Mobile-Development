@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Turtlify</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_maps">Maps</string>
+    <string name="title_camera">Camera</string>
+    <string name="title_report_turtle">Report</string>
+    <string name="title_history">History</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="empty_image_warning">Please take a picture or choose image from gallery first</string>
 </resources>
