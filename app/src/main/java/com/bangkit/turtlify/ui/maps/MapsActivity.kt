@@ -1,4 +1,4 @@
-package com.bangkit.turtlify.ui.activities
+package com.bangkit.turtlify.ui.maps
 
 import android.content.pm.PackageManager
 import android.graphics.Bitmap

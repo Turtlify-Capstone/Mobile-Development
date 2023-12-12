@@ -1,4 +1,4 @@
-package com.bangkit.turtlify.network.api
+package com.bangkit.turtlify.data.network.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

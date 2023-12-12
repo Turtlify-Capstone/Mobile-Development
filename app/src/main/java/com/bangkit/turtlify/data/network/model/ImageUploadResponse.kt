@@ -1,4 +1,4 @@
-package com.bangkit.turtlify.network.model
+package com.bangkit.turtlify.data.network.model
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,4 +1,4 @@
-package com.bangkit.turtlify.ui.utils
+package com.bangkit.turtlify.utils
 
 import android.content.Context
 import android.graphics.Bitmap

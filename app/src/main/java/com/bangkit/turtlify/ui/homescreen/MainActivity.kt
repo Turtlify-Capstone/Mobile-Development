@@ -1,4 +1,4 @@
-package com.bangkit.turtlify.ui.activities
+package com.bangkit.turtlify.ui.homescreen
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,10 +6,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.databinding.ActivityMainBinding
+import com.bangkit.turtlify.ui.camera.CameraActivity
 
 class MainActivity : AppCompatActivity() {
 

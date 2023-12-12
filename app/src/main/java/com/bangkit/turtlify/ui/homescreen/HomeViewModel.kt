@@ -1,4 +1,4 @@
-package com.bangkit.turtlify.ui.viemodels
+package com.bangkit.turtlify.ui.homescreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

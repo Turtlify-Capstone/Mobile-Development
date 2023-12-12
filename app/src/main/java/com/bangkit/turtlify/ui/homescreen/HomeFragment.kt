@@ -1,4 +1,4 @@
-package com.bangkit.turtlify.ui.fragments
+package com.bangkit.turtlify.ui.homescreen
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.databinding.FragmentHomeBinding
-import com.bangkit.turtlify.ui.viemodels.HomeViewModel
 
 class HomeFragment : Fragment() {
 

@@ -6,4 +6,6 @@
     <color name="secondary">#DEF8F0</color>
     <color name="tertiary">#3E84A6</color>
     <color name="dark_blue">#47476D</color>
+
+    <color name="my_light_primary">#00BCD4</color>
 </resources>
