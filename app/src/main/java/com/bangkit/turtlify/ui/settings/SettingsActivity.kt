@@ -3,6 +3,7 @@ package com.bangkit.turtlify.ui.settings
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.widget.Toolbar
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.databinding.ActivitySettingsBinding
 import com.bangkit.turtlify.ui.about.AboutActivity
@@ -16,7 +17,17 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupView()
         setupAction()
+    }
+
+    private fun setupView() {
+        val toolbar = findViewById<Toolbar>(R.id.my_toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.apply {
+            title = getString(R.string.title_activity_settings)
+            setDisplayHomeAsUpEnabled(true)
+        }
     }
 
     private fun setupAction() {
@@ -67,5 +78,9 @@ class SettingsActivity : AppCompatActivity() {
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareText)
 
         startActivity(Intent.createChooser(shareIntent, "Share via"))
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }

@@ -1,7 +1,6 @@
-package com.bangkit.turtlify.ui.activities
+package com.bangkit.turtlify.ui.camera
 
 import android.Manifest
-import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -19,11 +18,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.databinding.ActivityCameraBinding
-import com.bangkit.turtlify.network.api.ApiConfig
-import com.bangkit.turtlify.network.model.ImageUploadResponse
-import com.bangkit.turtlify.ui.utils.createCustomTempFile
-import com.bangkit.turtlify.ui.utils.reduceFileImage
-import com.bangkit.turtlify.ui.utils.uriToFile
+import com.bangkit.turtlify.data.network.api.ApiConfig
+import com.bangkit.turtlify.data.network.model.ImageUploadResponse
+import com.bangkit.turtlify.utils.createCustomTempFile
+import com.bangkit.turtlify.utils.reduceFileImage
+import com.bangkit.turtlify.utils.uriToFile
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType

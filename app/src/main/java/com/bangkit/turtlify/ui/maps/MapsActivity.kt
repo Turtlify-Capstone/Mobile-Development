@@ -1,4 +1,4 @@
-package com.bangkit.turtlify.ui.activities
+package com.bangkit.turtlify.ui.maps
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -19,16 +19,20 @@
         android:theme="@style/Theme.Turtlify"
         tools:targetApi="31">
         <activity
-            android:exported="true">
+            android:exported="true"
+            android:name=".ui.homescreen.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.settings.SettingsActivity"/>
         <activity android:name=".ui.faq.FaqActivity"/>
         <activity android:name=".ui.suggestion.SuggestionActivity"/>
         <activity android:name=".ui.about.AboutActivity"/>
+        <activity android:name=".ui.maps.MapsActivity"/>
+        <activity android:name=".ui.camera.CameraActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -1,6 +1,6 @@
-package com.bangkit.turtlify.network.api
+package com.bangkit.turtlify.data.network.api
 
-import com.bangkit.turtlify.network.model.ImageUploadResponse
+import com.bangkit.turtlify.data.network.model.ImageUploadResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Multipart

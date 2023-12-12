@@ -10,16 +10,28 @@
         android:layout_height="match_parent"
         tools:context=".ui.about.AboutActivity">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/image_icon_app"
             android:layout_width="wrap_content"
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/my_toolbar">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -29,24 +41,24 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about_version"
-                android:gravity="center"
                 android:layout_marginTop="110dp"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:text="@string/about_version"
                 android:textColor="@color/white"
-                android:paddingTop="8dp"/>
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about_desc_app"
-                android:gravity="center"
                 android:layout_marginTop="135dp"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:text="@string/about_desc_app"
                 android:textColor="@color/white"
-                android:paddingTop="8dp"/>
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
         </androidx.cardview.widget.CardView>
 

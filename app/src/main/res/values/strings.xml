@@ -45,5 +45,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+<!--    Activity Title-->
     <string name="empty_image_warning">Please take a picture or choose image from gallery first</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_suggestion">Suggestion</string>
+    <string name="title_activity_about">About</string>
+    <string name="title_activity_faq">FAQ &amp; Help</string>
 </resources>
