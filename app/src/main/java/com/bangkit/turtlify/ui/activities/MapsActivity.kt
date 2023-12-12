@@ -4,9 +4,11 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.databinding.ActivityMapsBinding
 import com.bumptech.glide.Glide
@@ -22,7 +24,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 
-data class TurtlePlace(
+data class Turtle(
     val name: String,
     val imageUrl: String,
     val latitude: Double,
@@ -34,6 +36,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
     private val boundsBuilder = LatLngBounds.Builder()
+    private val selectedTurtle:MutableLiveData<Turtle?> = MutableLiveData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +62,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         getMyLocation()
         addManyMarker()
+        observeSelectedTurtle()
+
+        mMap.setOnMapClickListener {
+            selectedTurtle.value = null
+        }
     }
+
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -81,9 +90,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     private fun addManyMarker() {
         val turtlePlace = listOf(
-            TurtlePlace("Floating Market Lembang", "https://w7.pngwing.com/pngs/487/456/png-transparent-computer-icons-business-logo-youtube-cartoon-green-small-rocket-cartoon-character-painted-hand-thumbnail.png" , -6.8168954,107.6151046),
-            TurtlePlace("The Great Asia Africa", "https://w7.pngwing.com/pngs/858/429/png-transparent-rocket-computer-icons-rocket-leaf-spacecraft-desktop-wallpaper.png" , -6.8331128,107.6048483),
-            TurtlePlace("Rabbit Town", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNSwc5P2dILCEaeIhmk4op8bvPgrYQIUnMrBibPdm3uM4JUI-gG9163WFvqWNIu5Ns-9k&usqp=CAU" ,-6.8668408,107.608081),
+            Turtle("Floating Market Lembang", "https://w7.pngwing.com/pngs/487/456/png-transparent-computer-icons-business-logo-youtube-cartoon-green-small-rocket-cartoon-character-painted-hand-thumbnail.png" , -6.8168954,107.6151046),
+            Turtle("The Great Asia Africa", "https://w7.pngwing.com/pngs/858/429/png-transparent-rocket-computer-icons-rocket-leaf-spacecraft-desktop-wallpaper.png" , -6.8331128,107.6048483),
+            Turtle("Rabbit Town", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNSwc5P2dILCEaeIhmk4op8bvPgrYQIUnMrBibPdm3uM4JUI-gG9163WFvqWNIu5Ns-9k&usqp=CAU" ,-6.8668408,107.608081),
         )
         turtlePlace.forEach { turtle ->
             val latLng = LatLng(turtle.latitude, turtle.longitude)
@@ -105,7 +114,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             boundsBuilder.include(latLng)
             mMap.setOnMarkerClickListener { marker ->
                 if (marker.tag != null) {
-                    showTurtleFloatingCard(turtle)
+                    selectedTurtle.postValue(marker.tag as Turtle?)
                 }
                 true
             }
@@ -122,7 +131,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         )
     }
 
-    private fun showTurtleFloatingCard(turtlePlace: TurtlePlace){
+    private fun observeSelectedTurtle(){
+        selectedTurtle.observe(this@MapsActivity){turtle ->
+            if(turtle !== null){
+                with(binding) {
+                    turtleCardName.text = turtle.name
+                    turtleCardLatinName.text = turtle.name
+                    turtleCardStatus.text = turtle.name
+                    Glide.with(this@MapsActivity)
+                        .load(turtle.imageUrl)
+                        .into(turtleCardImage)
 
+                    turtleCard.visibility = View.VISIBLE
+                }
+            }else{
+                binding.turtleCard.visibility = View.GONE
+            }
+        }
     }
 }

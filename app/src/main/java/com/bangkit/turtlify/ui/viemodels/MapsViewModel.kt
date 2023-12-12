@@ -1,4 +1,7 @@
 package com.bangkit.turtlify.ui.viemodels
 
-class MapsViewModel {
+import androidx.lifecycle.ViewModel
+
+class MapsViewModel : ViewModel() {
+
 }
