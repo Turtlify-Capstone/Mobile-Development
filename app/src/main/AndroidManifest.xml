@@ -19,13 +19,6 @@
         android:theme="@style/Theme.Turtlify"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activities.MapsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.CameraActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,6 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.faq.FaqActivity"/>
+        <activity android:name=".ui.suggestion.SuggestionActivity"/>
+        <activity android:name=".ui.about.AboutActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -1,6 +1,41 @@
 <resources>
     <string name="app_name">Turtlify</string>
-    <string name="title_activity_main">MainActivity</string>
+
+<!--    Settings Screen-->
+    <string name="language">Language</string>
+    <string name="faq">FAQ &amp; Help</string>
+    <string name="suggestion">Suggestion</string>
+    <string name="about">About</string>
+    <string name="share">Share this app</string>
+    <string name="dark_mode">Dark Mode</string>
+
+
+<!--    About Screen-->
+    <string name="about_version">Turtlify v1.0</string>
+    <string name="about_desc_app">Instantly Identify Turtles</string>
+    <string name="our_mission_title">Our Mission</string>
+    <string name="our_mission_desc">We realise that some turtle and tortoise species are facing the threat of extinction, but public awareness about this issue is still very low. Many people often capture turtles and tortoises to keep as pets or for consumption, without paying attention to whether these species are protected or not. Furthermore, the issue of turtles being found in waters that should not be their habitat is also a crucial problem for the survival of these species. Turtlify provides easily accessible and engaging information about turtles and tortoises, So we can increase public awareness of the importance of protecting these species.</string>
+    <string name="soc_media_title">Our Social Media</string>
+    <string name="soc_media_instagram">Turtlify</string>
+    <string name="soc_media_twitter">Turtlify</string>
+    <string name="soc_media_linkedin">Turtlify</string>
+
+<!--    Suggestion Screen-->
+    <string name="feedback_title">Give us feedback so we can get better</string>
+    <string name="feedback_radio_title">Feedback type</string>
+    <string name="edit_text_email_hint">Input your email</string>
+    <string name="edit_text_feedback_hint">Input your feedback</string>
+    <string name="submit_feedback">Submit</string>
+    <string name="rb_issue">Technical Issue</string>
+    <string name="rb_feedback">General Feedback</string>
+    <string name="rb_feature">Feature Requests</string>
+    <string name="rb_content">Content Suggestions</string>
+
+<!--    FAQ Screen-->
+    <string name="message_title">Still need help? Contact our support team</string>
+    <string name="submit_message">Send a message</string>
+  
+      <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_maps">Maps</string>
     <string name="title_camera">Camera</string>
