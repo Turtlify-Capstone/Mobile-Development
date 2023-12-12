@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_maps"
+        android:icon="@drawable/map_location_dot_solid"
+        android:title="@string/title_maps" />
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_camera"-->
+<!--        android:icon="@drawable/baseline_camera_alt_24"-->
+<!--        android:title="@string/title_camera" />-->
+    <item
+        android:id="@+id/fab_camera"
+        android:title=""
+        android:enabled="false"
+        />
+
+    <item
+        android:id="@+id/navigation_report_turtle"
+        android:icon="@drawable/report_solid"
+        android:title="@string/title_report_turtle" />
+
+    <item
+        android:id="@+id/navigation_history"
+        android:icon="@drawable/baseline_history_24"
+        android:title="@string/title_history" />
+</menu>
