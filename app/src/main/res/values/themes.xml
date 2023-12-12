@@ -5,5 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Turtlify" parent="Base.Theme.Turtlify" />
+    <style name="Theme.Turtlify" parent="Base.Theme.Turtlify">
+         <item name="colorPrimary">@color/my_light_primary</item>
+    </style>
 </resources>
