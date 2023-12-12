@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvSettingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
+
+    <LinearLayout
+        android:id="@+id/llSettingsMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvSettingsTitle"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
+
+        <!-- Language Menu Item -->
+        <TextView
+            android:id="@+id/tvLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/language"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:padding="8dp"
+            app:drawableEndCompat="@drawable/ic_arrow_right" />
+
+        <!-- FAQ Menu Item -->
+        <TextView
+            android:id="@+id/tvFaq"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/faq"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:padding="8dp"
+            android:layout_marginTop="8dp"
+            app:drawableEndCompat="@drawable/ic_arrow_right" />
+
+        <!-- Suggestion Menu Item -->
+        <TextView
+            android:id="@+id/tvSuggestion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/suggestion"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:padding="8dp"
+            android:layout_marginTop="8dp"
+            app:drawableEndCompat="@drawable/ic_arrow_right" />
+
+        <!-- About Menu Item -->
+        <TextView
+            android:id="@+id/tvAbout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/about"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:padding="8dp"
+            android:layout_marginTop="8dp"
+            app:drawableEndCompat="@drawable/ic_arrow_right" />
+
+        <TextView
+            android:id="@+id/tvShare"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/share"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:padding="8dp"
+            android:layout_marginTop="8dp"
+            app:drawableEndCompat="@drawable/ic_arrow_right" />
+
+        <!-- Dark Mode Switch -->
+
+        <LinearLayout
+            android:id="@+id/llDarkMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvDarkMode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/dark_mode"
+                android:textSize="18sp"
+                android:padding="8dp"/>
+
+            <Switch
+                android:id="@+id/switchDarkMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

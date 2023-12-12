@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">Turtlify</string>
 
+<!--    Settings Screen-->
+    <string name="language">Language</string>
+    <string name="faq">FAQ &amp; Help</string>
+    <string name="suggestion">Suggestion</string>
+    <string name="about">About</string>
+    <string name="share">Share this app</string>
+    <string name="dark_mode">Dark Mode</string>
+
+
 <!--    About Screen-->
     <string name="about_version">Turtlify v1.0</string>
     <string name="about_desc_app">Instantly Identify Turtles</string>
@@ -21,6 +30,7 @@
 <!--    FAQ Screen-->
     <string name="message_title">Still need help? Contact our support team</string>
     <string name="submit_message">Send a message</string>
+
 
 
 </resources>
