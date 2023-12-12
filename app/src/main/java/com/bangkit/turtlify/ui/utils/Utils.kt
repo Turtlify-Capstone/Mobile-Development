@@ -1,11 +1,20 @@
 package com.bangkit.turtlify.ui.utils
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Matrix
 import android.net.Uri
+import android.util.Log
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.exifinterface.media.ExifInterface
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -68,4 +77,22 @@ fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
     return Bitmap.createBitmap(
         source, 0, 0, source.width, source.height, matrix, true
     )
+}
+
+fun vectorToBitmap(@DrawableRes id: Int, @ColorInt color: Int, resources: Resources): BitmapDescriptor {
+    val vectorDrawable = ResourcesCompat.getDrawable(resources, id, null)
+    if (vectorDrawable == null) {
+        Log.e("BitmapHelper", "Resource not found")
+        return BitmapDescriptorFactory.defaultMarker()
+    }
+    val bitmap = Bitmap.createBitmap(
+        vectorDrawable.intrinsicWidth,
+        vectorDrawable.intrinsicHeight,
+        Bitmap.Config.ARGB_8888
+    )
+    val canvas = Canvas(bitmap)
+    vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
+    DrawableCompat.setTint(vectorDrawable, color)
+    vectorDrawable.draw(canvas)
+    return BitmapDescriptorFactory.fromBitmap(bitmap)
 }

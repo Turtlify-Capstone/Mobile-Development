@@ -6,9 +6,11 @@
     <string name="title_camera">Camera</string>
     <string name="title_report_turtle">Report</string>
     <string name="title_history">History</string>
+    <string name="select">Select item</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="empty_image_warning">Please take a picture or choose image from gallery first</string>
+    <string name="title_activity_location_selector">LocationSelectorActivity</string>
 </resources>
