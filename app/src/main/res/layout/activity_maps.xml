@@ -6,15 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".ui.maps.MapsActivity">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
         map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toTopOf="parent" />
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintHorizontal_bias="0.0"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toBottomOf="parent"
+            map:layout_constraintVertical_bias="0.0" />
+    </LinearLayout>
+
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/turtle_card"
@@ -24,7 +48,7 @@
         android:layout_marginBottom="34dp"
         android:visibility="gone"
         tools:visibility="visible"
-        map:cardCornerRadius="10dp"
+        map:cardCornerRadius="14dp"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent">
@@ -35,15 +59,24 @@
             android:padding="16dp"
             >
 
-            <ImageView
-                android:id="@+id/turtle_card_Image"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                tools:src="@tools:sample/avatars"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/turtle_card_image_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                map:cardCornerRadius="12dp"
+                map:cardElevation="0dp"
                 map:layout_constraintTop_toTopOf="parent"
                 map:layout_constraintBottom_toBottomOf="parent"
                 map:layout_constraintStart_toStartOf="parent"
-                />
+                >
+                <ImageView
+                    android:id="@+id/turtle_card_Image"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    tools:src="@tools:sample/avatars"
+
+                    />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/turtle_card_name"
@@ -53,8 +86,8 @@
                 android:layout_marginStart="18dp"
                 android:textSize="18sp"
                 android:fontFamily="@font/poppins_semibold"
-                map:layout_constraintStart_toEndOf="@id/turtle_card_Image"
-                map:layout_constraintTop_toTopOf="@id/turtle_card_Image"
+                map:layout_constraintStart_toEndOf="@id/turtle_card_image_wrapper"
+                map:layout_constraintTop_toTopOf="@id/turtle_card_image_wrapper"
                 />
 
             <TextView
@@ -75,7 +108,7 @@
                 android:text="Protected"
                 android:textSize="16sp"
                 android:fontFamily="@font/poppins"
-                map:layout_constraintBottom_toBottomOf="@id/turtle_card_Image"
+                map:layout_constraintBottom_toBottomOf="@id/turtle_card_image_wrapper"
                 map:layout_constraintStart_toStartOf="@id/turtle_card_latin_name"
                 />
 

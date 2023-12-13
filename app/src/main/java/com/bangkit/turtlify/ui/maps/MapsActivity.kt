@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.bangkit.turtlify.R
@@ -26,6 +27,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 data class Turtle(
     val name: String,
+    val latinName: String,
+    val status: String,
     val imageUrl: String,
     val latitude: Double,
     val longitude: Double
@@ -47,6 +50,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        setupView()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -66,6 +70,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mMap.setOnMapClickListener {
             selectedTurtle.value = null
+        }
+
+        binding.turtleCard.setOnClickListener{
+            Log.d("SELECTED_TURTE", selectedTurtle.value.toString())
+        }
+    }
+
+    private fun setupView() {
+        val toolbar = findViewById<Toolbar>(R.id.my_toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.apply {
+            title = "Turtle Maps"
+            setDisplayHomeAsUpEnabled(true)
+        }
+        toolbar.setNavigationOnClickListener{
+            finish()
         }
     }
 
@@ -90,15 +110,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     private fun addManyMarker() {
         val turtlePlace = listOf(
-            Turtle("Floating Market Lembang", "https://w7.pngwing.com/pngs/487/456/png-transparent-computer-icons-business-logo-youtube-cartoon-green-small-rocket-cartoon-character-painted-hand-thumbnail.png" , -6.8168954,107.6151046),
-            Turtle("The Great Asia Africa", "https://w7.pngwing.com/pngs/858/429/png-transparent-rocket-computer-icons-rocket-leaf-spacecraft-desktop-wallpaper.png" , -6.8331128,107.6048483),
-            Turtle("Rabbit Town", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNSwc5P2dILCEaeIhmk4op8bvPgrYQIUnMrBibPdm3uM4JUI-gG9163WFvqWNIu5Ns-9k&usqp=CAU" ,-6.8668408,107.608081),
+            Turtle("Floating Market Lembang", "Latin name", "dilindungi" , "https://www.fisheries.noaa.gov/s3/styles/original/s3/2021-07/640x427-Turtle_Green_NOAAFisheries.png" , -6.8168954,107.6151046),
+            Turtle("The Great Asia Africa", "Latin name", "dilindungi", "https://images.squarespace-cdn.com/content/v1/59cae0d6be42d63f64cf6dd2/1542902265247-7TO79BP2LWFFEALYZJK9/Witherington2018-10.png?format=750w" , -6.8331128,107.6048483),
+            Turtle("Rabbit Town", "Latin name", "Tidak dilindungi", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrcsDrhi0zMrpg46TWprj3iNo87nUURujNGQ&usqp=CAU" ,-6.8668408,107.608081),
         )
         turtlePlace.forEach { turtle ->
             val latLng = LatLng(turtle.latitude, turtle.longitude)
             Glide.with(this)
                 .asBitmap()
-                .apply(RequestOptions().override(50, 50))
+                .apply(RequestOptions().override(60, 60).circleCrop())
                 .load(turtle.imageUrl)
                 .into(object : SimpleTarget<Bitmap?>() {
                     override fun onResourceReady(
@@ -136,10 +156,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             if(turtle !== null){
                 with(binding) {
                     turtleCardName.text = turtle.name
-                    turtleCardLatinName.text = turtle.name
-                    turtleCardStatus.text = turtle.name
+                    turtleCardLatinName.text = turtle.latinName
+                    turtleCardStatus.text = turtle.status
+                    turtleCardStatus.setTextColor(getResources().getColor(
+                        if (turtle.status == "dilindungi") R.color.status_green else R.color.status_red
+                    ))
                     Glide.with(this@MapsActivity)
-                        .load(turtle.imageUrl)
+                        .load(turtle.imageUrl).centerCrop()
                         .into(turtleCardImage)
 
                     turtleCard.visibility = View.VISIBLE
