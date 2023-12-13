@@ -51,4 +51,21 @@
     <string name="title_activity_suggestion">Suggestion</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_faq">FAQ &amp; Help</string>
+    <string name="searchbar_hint">Search Turtles</string>
+    <string name="encyclopedia">Encyclopedia</string>
+    <string name="title_activity_instruction">Instruction</string>
+    <string name="image_description">Kura - kura</string>
+    <string name="news">News</string>
+    <string name="how_to_use_title">How to use Turtlify</string>
+    <string name="how_to_use_content">To start identify a turtle simply take a picture of the turtle or select a picture of turtle from your “Photos” and Turtlify will identify it instantly</string>
+    <string name="tips_title">Tips for Identifying</string>
+    <string name="tips_desc">A clear shot of turtle with proper angle and distance will help us identify turtles more accurately.</string>
+    <string name="tips_1">1. Focus the turtle at the center of the frame</string>
+    <string name="tips_2">2. If there are several turtles, just focus on single turtle</string>
+    <string name="tips_3">3. Avoid getting to close, just make sure the whole body of turtle are clear and complete</string>
+    <string name="tips_4">4. Avoid dark or blurry image.</string>
+    <string name="remember_title">Remember</string>
+    <string name="remember_1"> Don’t hurt any turtles</string>
+    <string name="remember_2">Pay attention to surrounding environment and stay safe when taking pictures</string>
+    <string name="remember_3">Don’t touch any unknown wild turtles, because some may be dangerous</string>
 </resources>
