@@ -8,4 +8,6 @@
     <color name="dark_blue">#47476D</color>
 
     <color name="my_light_primary">#00BCD4</color>
+    <color name="status_red">#DB1A00</color>
+    <color name="status_green">#00B976</color>
 </resources>
