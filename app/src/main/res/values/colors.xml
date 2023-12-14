@@ -10,4 +10,6 @@
     <color name="green_text">#00B976</color>
 
     <color name="my_light_primary">#00BCD4</color>
+    <color name="status_red">#DC1A00</color>
+    <color name="status_green">#00B976</color>
 </resources>
