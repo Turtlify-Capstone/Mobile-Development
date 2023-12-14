@@ -34,6 +34,7 @@
         <activity android:name=".ui.maps.MapsActivity"/>
         <activity android:name=".ui.camera.CameraActivity"/>
         <activity android:name=".ui.instruction.InstructionActivity"/>
+        <activity android:name=".ui.encyclopedia.EncyclopediaActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.databinding.FragmentHomeBinding
+import com.bangkit.turtlify.ui.encyclopedia.EncyclopediaActivity
 import com.bangkit.turtlify.ui.instruction.InstructionActivity
 import com.bangkit.turtlify.ui.settings.SettingsActivity
 
@@ -50,6 +51,11 @@ class HomeFragment : Fragment() {
 
         binding.cardView.setOnClickListener {
             val intent = Intent(activity, InstructionActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.tvEncyclopediaTitle.setOnClickListener {
+            val intent = Intent(activity, EncyclopediaActivity::class.java)
             startActivity(intent)
         }
     }

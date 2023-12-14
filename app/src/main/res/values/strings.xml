@@ -9,7 +9,6 @@
     <string name="share">Share this app</string>
     <string name="dark_mode">Dark Mode</string>
 
-
 <!--    About Screen-->
     <string name="about_version">Turtlify v1.0</string>
     <string name="about_desc_app">Instantly Identify Turtles</string>
@@ -51,11 +50,16 @@
     <string name="title_activity_suggestion">Suggestion</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_faq">FAQ &amp; Help</string>
+    <string name="title_activity_instruction">Instruction</string>
+    <string name="title_activity_encyclopedia">Encyclopedia</string>
+
+<!--    Home Screen-->
     <string name="searchbar_hint">Search Turtles</string>
     <string name="encyclopedia">Encyclopedia</string>
-    <string name="title_activity_instruction">Instruction</string>
-    <string name="image_description">Kura - kura</string>
+    <string name="image_description">Turtle</string>
     <string name="news">News</string>
+
+<!--    Instruction-->
     <string name="how_to_use_title">How to use Turtlify</string>
     <string name="how_to_use_content">To start identify a turtle simply take a picture of the turtle or select a picture of turtle from your “Photos” and Turtlify will identify it instantly</string>
     <string name="tips_title">Tips for Identifying</string>
