@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.encyclopediadetail.EncyclopediaDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/my_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/turtle_image_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                app:cardCornerRadius="12dp"
+                android:layout_marginHorizontal="24dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                >
+
+                <ImageView
+                    android:id="@+id/turtle_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_turtle_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Turtle name"
+                app:layout_constraintTop_toBottomOf="@id/turtle_image_wrapper"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textAlignment="center"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_turtle_latin_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="turtle latin name"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_italic"
+                app:layout_constraintTop_toBottomOf="@id/tv_turtle_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <LinearLayout
+                android:id="@+id/turtle_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="24dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/tv_turtle_latin_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status : "
+                    android:textSize="18sp"
+                    android:fontFamily="@font/poppins_semibold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_turtle_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dilindungi"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/poppins"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_title_decscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textSize="18sp"
+                android:layout_marginHorizontal="24dp"
+                android:fontFamily="@font/poppins_semibold"
+                app:layout_constraintTop_toBottomOf="@id/turtle_status"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="@tools:sample/lorem/random"
+                android:textSize="18sp"
+                android:layout_marginHorizontal="24dp"
+                android:fontFamily="@font/poppins"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_decscription"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/leaf_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/baseline_energy_savings_leaf_24"
+                app:layout_constraintTop_toBottomOf="@id/tv_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/heart_icon"
+            />
+
+            <ImageView
+                android:id="@+id/heart_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/baseline_heart_broken_24"
+                app:layout_constraintTop_toBottomOf="@id/tv_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/leaf_icon"
+                />
+
+            <TextView
+                android:id="@+id/tv_food"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Food"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/leaf_icon"
+                app:layout_constraintStart_toStartOf="@id/leaf_icon"
+                app:layout_constraintEnd_toEndOf="@id/leaf_icon"
+                />
+
+            <TextView
+                android:id="@+id/tv_life"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Life expectancy"
+                android:layout_marginTop="8dp"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/heart_icon"
+                app:layout_constraintStart_toStartOf="@id/heart_icon"
+                app:layout_constraintEnd_toEndOf="@id/heart_icon"
+                />
+
+            <TextView
+                android:id="@+id/tv_food_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Food value"
+                android:layout_marginTop="6dp"
+                android:paddingBottom="80dp"
+                android:textSize="18sp"
+                android:textColor="@color/tertiary"
+                app:layout_constraintTop_toBottomOf="@id/tv_food"
+                app:layout_constraintStart_toStartOf="@id/leaf_icon"
+                app:layout_constraintEnd_toEndOf="@id/leaf_icon"
+                />
+
+            <TextView
+                android:id="@+id/tv_life_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Food value"
+                android:layout_marginTop="6dp"
+                android:paddingBottom="80dp"
+                android:textSize="18sp"
+                android:textColor="@color/tertiary"
+                app:layout_constraintTop_toBottomOf="@id/tv_life"
+                app:layout_constraintStart_toStartOf="@id/heart_icon"
+                app:layout_constraintEnd_toEndOf="@id/heart_icon"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

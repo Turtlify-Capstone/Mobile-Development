@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.data.repository.Turtle
@@ -48,5 +49,4 @@ class EncyclopediaAdapter(private val context: Context, private val listEncyclop
     interface OnItemClickCallback {
         fun onItemClicked(data: Turtle)
     }
-
 }

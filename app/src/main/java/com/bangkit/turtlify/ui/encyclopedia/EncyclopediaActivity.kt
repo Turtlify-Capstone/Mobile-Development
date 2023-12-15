@@ -1,5 +1,6 @@
 package com.bangkit.turtlify.ui.encyclopedia
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.data.repository.Turtle
 import com.bangkit.turtlify.databinding.ActivityEncyclopediaBinding
+import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
 
 class EncyclopediaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEncyclopediaBinding
@@ -38,7 +40,7 @@ class EncyclopediaActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.my_toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
-            title = getString(R.string.title_activity_encyclopedia)
+            title = "Turtles Encyclopedia"
             setDisplayHomeAsUpEnabled(true)
         }
     }
@@ -51,10 +53,9 @@ class EncyclopediaActivity : AppCompatActivity() {
 
         listHeroAdapter.setOnItemClickCallback(object : EncyclopediaAdapter.OnItemClickCallback {
             override fun onItemClicked(turtle: Turtle) {
-                Log.d("TURTLE", turtle.toString())
-//                val intent = Intent(this@HistoryFragment, EnsiklopediaDetail::class.java)
-//                intent.putStringExtra("turtle_id", turtle_id)
-//                startActivity(intent)
+                val intent = Intent(this@EncyclopediaActivity, EncyclopediaDetailActivity::class.java)
+                intent.putExtra("turtleId", turtle.id)
+                startActivity(intent)
             }
         })
     }
