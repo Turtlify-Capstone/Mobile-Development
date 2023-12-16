@@ -16,6 +16,7 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.databinding.ActivityIdentifierBinding
@@ -35,18 +36,16 @@ import retrofit2.HttpException
 class IdentifierActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityIdentifierBinding
+    private lateinit var viewModel: IdentifierViewModel
     private var currentImageUri: Uri? = null
     private var imageCapture: ImageCapture? = null
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(
+    private val requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
-            if (isGranted) {
-                Toast.makeText(this, "Permission request granted", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(this, "Permission request denied", Toast.LENGTH_LONG).show()
-            }
+            val message = if (isGranted) "Permission request granted" else "Permission request denied"
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            if (isGranted) startCameraX() else finish()
         }
     private fun allPermissionsGranted() =
         ContextCompat.checkSelfPermission(
@@ -58,23 +57,32 @@ class IdentifierActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityIdentifierBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = ViewModelProvider(this)[IdentifierViewModel::class.java]
 
-        binding.btnGallery.setOnClickListener{
-            startGallery()
-        }
-        binding.btnClose.setOnClickListener{
-            if(currentImageUri !== null) {
-                currentImageUri = null
-                binding.previewImage.visibility = View.GONE
-                binding.captureImage.setImageResource(R.drawable.baseline_control_camera_24)
-            }else{
-                finish()
+        setupViews()
+        checkPermissions()
+    }
+
+    private fun setupViews() {
+        with(binding) {
+            btnGallery.setOnClickListener { startGallery() }
+            btnClose.setOnClickListener {
+                if (currentImageUri != null) {
+                    currentImageUri = null
+                    previewImage.visibility = View.GONE
+                    captureImage.setImageResource(R.drawable.baseline_control_camera_24)
+                } else {
+                    finish()
+                }
             }
+            captureImageBtn.setOnClickListener { if (currentImageUri != null) uploadImage() else takePhoto() }
         }
+    }
 
+    private fun checkPermissions() {
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
-        }else{
+        } else {
             startCameraX()
         }
     }
@@ -108,10 +116,6 @@ class IdentifierActivity : AppCompatActivity() {
                 ).show()
                 Log.e(TAG, "startCamera: ${exc.message}")
             }
-
-            binding.captureImageBtn.setOnClickListener{
-                if (currentImageUri !== null) uploadImage() else takePhoto()
-            }
         }, ContextCompat.getMainExecutor(this))
     }
 
@@ -126,6 +130,8 @@ class IdentifierActivity : AppCompatActivity() {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     Log.d("IMAGEOUTPUT", output.savedUri.toString())
                     currentImageUri = output.savedUri
+                    showImage()
+                    uploadImage()
                     Toast.makeText(
                         this@IdentifierActivity,
                         "Berhasil mengambil gambar.",
@@ -154,6 +160,7 @@ class IdentifierActivity : AppCompatActivity() {
         if (uri != null) {
             currentImageUri = uri
             showImage()
+            binding.captureImage.setImageResource(R.drawable.baseline_check_24)
         } else {
             Log.d("Photo Picker", "No media selected")
         }
@@ -163,7 +170,6 @@ class IdentifierActivity : AppCompatActivity() {
         currentImageUri?.let {
             Log.d("Image URI", "showImage: $it")
             binding.previewImage.visibility = View.VISIBLE
-            binding.captureImage.setImageResource(R.drawable.baseline_check_24)
             Glide.with(this)
                 .load(currentImageUri).optionalCenterCrop()
                 .into(binding.previewImage)
@@ -173,29 +179,22 @@ class IdentifierActivity : AppCompatActivity() {
     private fun uploadImage() {
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
-            Log.d("Image File", "showImage: ${imageFile.path}")
             showLoading(true)
 
-            val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
-            val multipartBody = MultipartBody.Part.createFormData(
-                "photo",
-                imageFile.name,
-                requestImageFile
-            )
-
-            lifecycleScope.launch {
-                try {
-                    val apiService = ApiConfig().getApiService()
-                    val successResponse = apiService.uploadImage(multipartBody)
-//                    showToast(successResponse.message)
+            viewModel.uploadImage(imageFile,
+                onSuccess = { response ->
+                    response.message?.let { showToast(it) }
                     showLoading(false)
-                } catch (e: HttpException) {
-                    val errorBody = e.response()?.errorBody()?.string()
-                    val errorResponse = Gson().fromJson(errorBody, ImageUploadResponse::class.java)
-                    showToast(errorResponse.message)
+                    currentImageUri = null
+                    binding.previewImage.visibility = View.GONE
+                    binding.captureImage.setImageResource(R.drawable.baseline_control_camera_24)
+                },
+                onError = { errorMessage ->
+                    showToast(errorMessage)
                     showLoading(false)
+                    currentImageUri = null
                 }
-            }
+            )
         } ?: showToast(getString(R.string.empty_image_warning))
     }
 
