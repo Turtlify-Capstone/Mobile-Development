@@ -1,43 +1,42 @@
 package com.bangkit.turtlify.ui.camera
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.hardware.camera2.CameraAccessException
+import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.CameraX
 import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCapture.FLASH_MODE_OFF
+import androidx.camera.core.ImageCapture.FLASH_MODE_ON
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.databinding.ActivityIdentifierBinding
-import com.bangkit.turtlify.data.network.api.ApiConfig
-import com.bangkit.turtlify.data.network.model.ImageUploadResponse
 import com.bangkit.turtlify.utils.createCustomTempFile
 import com.bangkit.turtlify.utils.reduceFileImage
 import com.bangkit.turtlify.utils.uriToFile
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
-import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import retrofit2.HttpException
 
 class IdentifierActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityIdentifierBinding
     private lateinit var viewModel: IdentifierViewModel
     private var currentImageUri: Uri? = null
+    private var isFlashOn = false
     private var imageCapture: ImageCapture? = null
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -76,6 +75,10 @@ class IdentifierActivity : AppCompatActivity() {
                 }
             }
             captureImageBtn.setOnClickListener { if (currentImageUri != null) uploadImage() else takePhoto() }
+            flashLightButton.setOnClickListener {
+                isFlashOn = !isFlashOn
+                binding.flashLightButtonImage.setImageResource( if (isFlashOn) R.drawable.baseline_flash_on_24 else R.drawable.baseline_flash_off_24)
+            }
         }
     }
 
@@ -121,6 +124,7 @@ class IdentifierActivity : AppCompatActivity() {
 
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
+        imageCapture.flashMode = if(isFlashOn) FLASH_MODE_ON else FLASH_MODE_OFF
         val photoFile = createCustomTempFile(application)
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
         imageCapture.takePicture(
@@ -132,11 +136,6 @@ class IdentifierActivity : AppCompatActivity() {
                     currentImageUri = output.savedUri
                     showImage()
                     uploadImage()
-                    Toast.makeText(
-                        this@IdentifierActivity,
-                        "Berhasil mengambil gambar.",
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
                 override fun onError(exc: ImageCaptureException) {
                     Toast.makeText(

@@ -48,7 +48,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/btn_flash_camera"
+        android:id="@+id/flash_light_button"
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_margin="24dp"
@@ -59,10 +59,11 @@
         app:srcCompat="@drawable/baseline_flash_on_24"
         >
         <ImageView
+            android:id="@+id/flash_light_button_image"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:src="@drawable/baseline_flash_on_24" />
+            android:src="@drawable/baseline_flash_off_24" />
     </androidx.cardview.widget.CardView>
 
     <ProgressBar
