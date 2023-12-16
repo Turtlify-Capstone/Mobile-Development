@@ -32,9 +32,19 @@
         <activity android:name=".ui.suggestion.SuggestionActivity"/>
         <activity android:name=".ui.about.AboutActivity"/>
         <activity android:name=".ui.maps.MapsActivity"/>
-        <activity android:name=".ui.camera.CameraActivity"/>
+        <activity android:name=".ui.camera.IdentifierActivity"/>
         <activity android:name=".ui.instruction.InstructionActivity"/>
         <activity android:name=".ui.encyclopedia.EncyclopediaActivity"/>
+
+        <service android:name="com.google.android.gms.metadata.ModuleDependencies"
+            android:enabled="false"
+            android:exported="false"
+            tools:ignore="MissingClass">
+            <intent-filter>
+                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+            </intent-filter>
+            <meta-data android:name="photopicker_activity:0:required" android:value="" />
+        </service>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -9,7 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.databinding.ActivityMainBinding
-import com.bangkit.turtlify.ui.camera.CameraActivity
+import com.bangkit.turtlify.ui.camera.IdentifierActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         binding.cameraFab.setOnClickListener{
-            val intent = Intent(this@MainActivity, CameraActivity::class.java)
+            val intent = Intent(this@MainActivity, IdentifierActivity::class.java)
             startActivity(intent)
         }
     }
