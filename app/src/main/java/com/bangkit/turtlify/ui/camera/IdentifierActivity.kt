@@ -1,50 +1,50 @@
 package com.bangkit.turtlify.ui.camera
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.hardware.camera2.CameraAccessException
+import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.CameraX
 import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCapture.FLASH_MODE_OFF
+import androidx.camera.core.ImageCapture.FLASH_MODE_ON
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.R
-import com.bangkit.turtlify.databinding.ActivityCameraBinding
-import com.bangkit.turtlify.data.network.api.ApiConfig
-import com.bangkit.turtlify.data.network.model.ImageUploadResponse
+import com.bangkit.turtlify.databinding.ActivityIdentifierBinding
 import com.bangkit.turtlify.utils.createCustomTempFile
 import com.bangkit.turtlify.utils.reduceFileImage
 import com.bangkit.turtlify.utils.uriToFile
-import com.google.gson.Gson
-import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import retrofit2.HttpException
+import com.bumptech.glide.Glide
 
-class CameraActivity : AppCompatActivity() {
+class IdentifierActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCameraBinding
+    private lateinit var binding: ActivityIdentifierBinding
+    private lateinit var viewModel: IdentifierViewModel
     private var currentImageUri: Uri? = null
+    private var isFlashOn = false
     private var imageCapture: ImageCapture? = null
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(
+    private val requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
-            if (isGranted) {
-                Toast.makeText(this, "Permission request granted", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(this, "Permission request denied", Toast.LENGTH_LONG).show()
-            }
+            val message = if (isGranted) "Permission request granted" else "Permission request denied"
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            if (isGranted) startCameraX() else finish()
         }
     private fun allPermissionsGranted() =
         ContextCompat.checkSelfPermission(
@@ -54,12 +54,38 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCameraBinding.inflate(layoutInflater)
+        binding = ActivityIdentifierBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = ViewModelProvider(this)[IdentifierViewModel::class.java]
 
+        setupViews()
+        checkPermissions()
+    }
+
+    private fun setupViews() {
+        with(binding) {
+            btnGallery.setOnClickListener { startGallery() }
+            btnClose.setOnClickListener {
+                if (currentImageUri != null) {
+                    currentImageUri = null
+                    previewImage.visibility = View.GONE
+                    captureImage.setImageResource(R.drawable.baseline_control_camera_24)
+                } else {
+                    finish()
+                }
+            }
+            captureImageBtn.setOnClickListener { if (currentImageUri != null) uploadImage() else takePhoto() }
+            flashLightButton.setOnClickListener {
+                isFlashOn = !isFlashOn
+                binding.flashLightButtonImage.setImageResource( if (isFlashOn) R.drawable.baseline_flash_on_24 else R.drawable.baseline_flash_off_24)
+            }
+        }
+    }
+
+    private fun checkPermissions() {
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
-        }else{
+        } else {
             startCameraX()
         }
     }
@@ -87,21 +113,18 @@ class CameraActivity : AppCompatActivity() {
                 )
             } catch (exc: Exception) {
                 Toast.makeText(
-                    this@CameraActivity,
+                    this@IdentifierActivity,
                     "Gagal memunculkan kamera.",
                     Toast.LENGTH_SHORT
                 ).show()
                 Log.e(TAG, "startCamera: ${exc.message}")
-            }
-
-            binding.captureImage.setOnClickListener{
-                takePhoto()
             }
         }, ContextCompat.getMainExecutor(this))
     }
 
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
+        imageCapture.flashMode = if(isFlashOn) FLASH_MODE_ON else FLASH_MODE_OFF
         val photoFile = createCustomTempFile(application)
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
         imageCapture.takePicture(
@@ -111,15 +134,12 @@ class CameraActivity : AppCompatActivity() {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     Log.d("IMAGEOUTPUT", output.savedUri.toString())
                     currentImageUri = output.savedUri
-                    Toast.makeText(
-                        this@CameraActivity,
-                        "Berhasil mengambil gambar.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showImage()
+                    uploadImage()
                 }
                 override fun onError(exc: ImageCaptureException) {
                     Toast.makeText(
-                        this@CameraActivity,
+                        this@IdentifierActivity,
                         "Gagal mengambil gambar.",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -129,32 +149,51 @@ class CameraActivity : AppCompatActivity() {
         )
     }
 
+    private fun startGallery() {
+        launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    }
+
+    private val launcherGallery = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            currentImageUri = uri
+            showImage()
+            binding.captureImage.setImageResource(R.drawable.baseline_check_24)
+        } else {
+            Log.d("Photo Picker", "No media selected")
+        }
+    }
+
+    private fun showImage() {
+        currentImageUri?.let {
+            Log.d("Image URI", "showImage: $it")
+            binding.previewImage.visibility = View.VISIBLE
+            Glide.with(this)
+                .load(currentImageUri).optionalCenterCrop()
+                .into(binding.previewImage)
+        }
+    }
+
     private fun uploadImage() {
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
-            Log.d("Image File", "showImage: ${imageFile.path}")
             showLoading(true)
 
-            val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
-            val multipartBody = MultipartBody.Part.createFormData(
-                "photo",
-                imageFile.name,
-                requestImageFile
-            )
-
-            lifecycleScope.launch {
-                try {
-                    val apiService = ApiConfig().getApiService()
-                    val successResponse = apiService.uploadImage(multipartBody)
-//                    showToast(successResponse.message)
+            viewModel.uploadImage(imageFile,
+                onSuccess = { response ->
+                    response.message?.let { showToast(it) }
                     showLoading(false)
-                } catch (e: HttpException) {
-                    val errorBody = e.response()?.errorBody()?.string()
-                    val errorResponse = Gson().fromJson(errorBody, ImageUploadResponse::class.java)
-                    showToast(errorResponse.message)
+                    currentImageUri = null
+                    binding.previewImage.visibility = View.GONE
+                    binding.captureImage.setImageResource(R.drawable.baseline_control_camera_24)
+                },
+                onError = { errorMessage ->
+                    showToast(errorMessage)
                     showLoading(false)
+                    currentImageUri = null
                 }
-            }
+            )
         } ?: showToast(getString(R.string.empty_image_warning))
     }
 
