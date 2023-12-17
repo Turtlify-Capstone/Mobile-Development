@@ -1,6 +1,7 @@
 package com.bangkit.turtlify.data.network.api
 
 import com.bangkit.turtlify.data.model.feedback.FeedbackData
+import com.bangkit.turtlify.data.model.suggestion.Suggestion
 import com.bangkit.turtlify.data.network.model.ImageUploadResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -18,4 +19,7 @@ interface ApiService {
 
     @POST("FeedbackEmail")
     fun sendFeedback(@Body feedbackData: FeedbackData): Call<Void>
+
+    @POST("AddFeedback")
+    fun sendSuggestion(@Body suggestionData: Suggestion): Call<Void>
 }
