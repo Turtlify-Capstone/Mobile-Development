@@ -4,10 +4,10 @@
 
     <uses-feature android:name="android.hardware.camera" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -39,24 +39,36 @@
             android:value="AIzaSyDvUj4LCCwl5BtM-rOLKaVTi5B49BkP6u4" />
 
         <activity
-            android:name=".ui.activities.LocationSelectorActivity"
+            android:name=".ui.report.LocationSelectorActivity"
             android:exported="false"
             android:label="@string/title_activity_location_selector" />
         <activity
-            android:name=".ui.activities.MapsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.CameraActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:name=".ui.homescreen.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.settings.SettingsActivity"/>
+        <activity android:name=".ui.faq.FaqActivity"/>
+        <activity android:name=".ui.suggestion.SuggestionActivity"/>
+        <activity android:name=".ui.about.AboutActivity"/>
+        <activity android:name=".ui.maps.MapsActivity"/>
+        <activity android:name=".ui.camera.IdentifierActivity"/>
+        <activity android:name=".ui.instruction.InstructionActivity"/>
+        <activity android:name=".ui.encyclopedia.EncyclopediaActivity"/>
+
+        <service android:name="com.google.android.gms.metadata.ModuleDependencies"
+            android:enabled="false"
+            android:exported="false"
+            tools:ignore="MissingClass">
+            <intent-filter>
+                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+            </intent-filter>
+            <meta-data android:name="photopicker_activity:0:required" android:value="" />
+        </service>
 
         <meta-data
             android:name="preloaded_fonts"

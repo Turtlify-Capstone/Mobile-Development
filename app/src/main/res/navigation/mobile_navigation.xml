@@ -7,31 +7,31 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.bangkit.turtlify.ui.fragments.HomeFragment"
+        android:name="com.bangkit.turtlify.ui.homescreen.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <activity
         android:id="@+id/navigation_maps"
-        android:name="com.bangkit.turtlify.ui.activities.MapsActivity"
+        android:name="com.bangkit.turtlify.ui.maps.MapsActivity"
         android:label="@string/title_maps"
         tools:layout="@layout/activity_maps" />
 
     <activity
         android:id="@+id/navigation_camera"
-        android:name="com.bangkit.turtlify.ui.activities.CameraActivity"
+        android:name="com.bangkit.turtlify.ui.camera.IdentifierActivity"
         android:label="@string/title_camera"
-        tools:layout="@layout/activity_camera" />
+        tools:layout="@layout/activity_identifier" />
 
     <fragment
         android:id="@+id/navigation_report_turtle"
-        android:name="com.bangkit.turtlify.ui.fragments.ReportTurtleFragment"
+        android:name="com.bangkit.turtlify.ui.report.ReportTurtleFragment"
         android:label="@string/title_report_turtle"
         tools:layout="@layout/fragment_report_turtle" />
 
     <fragment
         android:id="@+id/navigation_history"
-        android:name="com.bangkit.turtlify.ui.fragments.HistoryFragment"
+        android:name="com.bangkit.turtlify.ui.history.HistoryFragment"
         android:label="@string/title_history"
         tools:layout="@layout/fragment_history" />
 </navigation>

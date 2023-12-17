@@ -1,9 +1,9 @@
 package com.bangkit.turtlify.network.repository
 
 import android.util.Log
-import com.bangkit.turtlify.network.api.ApiConfig
-import com.bangkit.turtlify.network.api.ApiService
-import com.bangkit.turtlify.ui.fragments.FormData
+import com.bangkit.turtlify.data.network.api.ApiConfig
+import com.bangkit.turtlify.data.network.api.ApiService
+import com.bangkit.turtlify.ui.report.FormData
 import com.bangkit.turtlify.ui.viemodels.Contact
 import com.bangkit.turtlify.ui.viemodels.Response
 import com.bangkit.turtlify.ui.viemodels.Turtle
@@ -44,12 +44,4 @@ class NetworkRepository{
         return Response(true, "Data fetched successfully")
     }
 
-//    companion object {
-//        @Volatile
-//        private var instance: NetworkRepository? = null
-//        fun getInstance(apiService: ApiService) =
-//            instance ?: synchronized(this) {
-//                instance ?: NetworkRepository(apiService)
-//            }.also { instance = it }
-//    }
 }
