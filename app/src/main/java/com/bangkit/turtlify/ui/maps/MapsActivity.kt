@@ -2,6 +2,10 @@ package com.bangkit.turtlify.ui.maps
 
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -24,15 +28,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
-
-data class Turtle(
-    val name: String,
-    val latinName: String,
-    val status: String,
-    val imageUrl: String,
-    val latitude: Double,
-    val longitude: Double
-)
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -109,27 +104,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
     private fun addManyMarker() {
-        val turtlePlace = listOf(
-            Turtle("Floating Market Lembang", "Latin name", "dilindungi" , "https://www.fisheries.noaa.gov/s3/styles/original/s3/2021-07/640x427-Turtle_Green_NOAAFisheries.png" , -6.8168954,107.6151046),
-            Turtle("The Great Asia Africa", "Latin name", "dilindungi", "https://images.squarespace-cdn.com/content/v1/59cae0d6be42d63f64cf6dd2/1542902265247-7TO79BP2LWFFEALYZJK9/Witherington2018-10.png?format=750w" , -6.8331128,107.6048483),
-            Turtle("Rabbit Town", "Latin name", "Tidak dilindungi", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrcsDrhi0zMrpg46TWprj3iNo87nUURujNGQ&usqp=CAU" ,-6.8668408,107.608081),
-        )
         turtlePlace.forEach { turtle ->
             val latLng = LatLng(turtle.latitude, turtle.longitude)
-            Glide.with(this)
-                .asBitmap()
-                .apply(RequestOptions().override(60, 60).circleCrop())
-                .load(turtle.imageUrl)
-                .into(object : SimpleTarget<Bitmap?>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap?>?
-                    ) {
-                        val marker = mMap.addMarker(MarkerOptions().position(latLng).title(turtle.name))
-                        marker!!.setIcon(BitmapDescriptorFactory.fromBitmap(resource))
-                        marker.tag = turtle
-                    }
-                })
+            turtlePlace.forEach { turtle ->
+                val latLng = LatLng(turtle.latitude, turtle.longitude)
+                Glide.with(this)
+                    .asBitmap()
+                    .apply(RequestOptions().override(70, 70).circleCrop())
+                    .load(turtle.imageUrl)
+                    .into(object : SimpleTarget<Bitmap?>() {
+                        override fun onResourceReady(
+                            originalBitmap: Bitmap,
+                            transition: Transition<in Bitmap?>?
+                        ) {
+                            val borderedBitmap = addCircularBorderToBitmap(originalBitmap, Color.GREEN, 10)
+                            val marker = mMap.addMarker(MarkerOptions().position(latLng).title(turtle.name))
+                            marker!!.setIcon(BitmapDescriptorFactory.fromBitmap(borderedBitmap))
+                            marker.tag = turtle
+                        }
+                    })
+            }
 
             boundsBuilder.include(latLng)
             mMap.setOnMarkerClickListener { marker ->
@@ -159,7 +153,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     turtleCardLatinName.text = turtle.latinName
                     turtleCardStatus.text = turtle.status
                     turtleCardStatus.setTextColor(getResources().getColor(
-                        if (turtle.status == "dilindungi") R.color.status_green else R.color.status_red
+                        if (turtle.status == "dilindungi") R.color.green_text else R.color.red_text
                     ))
                     Glide.with(this@MapsActivity)
                         .load(turtle.imageUrl).centerCrop()
@@ -171,5 +165,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 binding.turtleCard.visibility = View.GONE
             }
         }
+    }
+
+    private fun addCircularBorderToBitmap(bitmap: Bitmap, borderColor: Int, borderWidth: Int): Bitmap {
+        val diameter = bitmap.width.coerceAtMost(bitmap.height) + borderWidth * 2
+        val center = diameter / 2f
+
+        val borderPaint = Paint().apply {
+            color = borderColor
+            style = Paint.Style.STROKE
+            strokeWidth = borderWidth.toFloat()
+            isAntiAlias = true
+        }
+
+        val borderBitmap = Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(borderBitmap)
+
+        canvas.drawCircle(center, center, center - borderWidth, borderPaint)
+        canvas.drawBitmap(bitmap, center - bitmap.width / 2f, center - bitmap.height / 2f, null)
+
+        return borderBitmap
     }
 }

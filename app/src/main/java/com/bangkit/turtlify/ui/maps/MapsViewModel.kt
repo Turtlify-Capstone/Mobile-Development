@@ -1,4 +1,4 @@
-package com.bangkit.turtlify.ui.viemodels
+package com.bangkit.turtlify.ui.maps
 
 import androidx.lifecycle.ViewModel
 

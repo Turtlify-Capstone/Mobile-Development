@@ -1,20 +1,27 @@
 package com.bangkit.turtlify.utils
 
+import android.R
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.BitmapShader
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.Shader
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import android.os.Build
 import androidx.exifinterface.media.ExifInterface
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -25,6 +32,7 @@ import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
 
 private const val FILENAME_FORMAT = "yyyyMMdd_HHmmss"
 private const val MAXIMAL_SIZE = 2000000 //maksimal image upload
