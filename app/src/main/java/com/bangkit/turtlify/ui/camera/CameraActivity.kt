@@ -144,7 +144,7 @@ class CameraActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    val apiService = ApiConfig().getApiService()
+                    val apiService = ApiConfig.getApiService()
                     val successResponse = apiService.uploadImage(multipartBody)
 //                    showToast(successResponse.message)
                     showLoading(false)

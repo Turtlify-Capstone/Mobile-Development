@@ -73,4 +73,5 @@
     <string name="remember_2">Pay attention to surrounding environment and stay safe when taking pictures</string>
     <string name="remember_3">Don’t touch any unknown wild turtles, because some may be dangerous</string>
     <string name="title_activity_news">News Detail</string>
+    <string name="edit_text_help_hint">Describe your help</string>
 </resources>
