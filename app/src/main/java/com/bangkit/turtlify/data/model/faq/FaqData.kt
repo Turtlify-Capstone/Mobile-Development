@@ -1,4 +1,4 @@
-package com.bangkit.turtlify.data.model
+package com.bangkit.turtlify.data.model.faq
 
 object FaqData {
     val faqList = listOf(

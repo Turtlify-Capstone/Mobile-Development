@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.turtlify.R
-import com.bangkit.turtlify.data.model.FaqData
+import com.bangkit.turtlify.data.model.faq.FaqData
 import com.bangkit.turtlify.databinding.ActivityFaqBinding
-import com.bangkit.turtlify.databinding.ActivitySettingsBinding
 
 class FaqActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFaqBinding
