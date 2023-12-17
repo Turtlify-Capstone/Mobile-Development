@@ -1,57 +1,193 @@
 package com.bangkit.turtlify.ui.report
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.R
+import com.bangkit.turtlify.databinding.FragmentReportTurtleBinding
+import com.bangkit.turtlify.ui.settings.SettingsActivity
+import com.bangkit.turtlify.ui.viemodels.ReportTurtleViewModel
+import com.bangkit.turtlify.ui.viemodels.Turtle
+import com.bumptech.glide.Glide
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ReportTurtleFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+data class TurtleLocation(
+    var lat: String,
+    var long: String
+)
+data class FormData(
+    var reporterName: String,
+    var reporterContact: String,
+    var turtleLocation: TurtleLocation,
+    var contactId: String,
+    var turtleId: String
+)
+
+
 class ReportTurtleFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var binding: FragmentReportTurtleBinding? = null
+    private var contactList: MutableList<String> = mutableListOf()
+    private var turtleList: MutableList<Turtle> = mutableListOf()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var contactsAdapter: ArrayAdapter<String>
+    private lateinit var turtlesAdapter: TurtleAdapter
+    private lateinit var viewModel: ReportTurtleViewModel
+    private var formData = FormData("", "", TurtleLocation("",""),"","")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report_turtle, container, false)
+        binding = FragmentReportTurtleBinding.inflate(inflater, container, false)
+
+        setupViewModel()
+        setupContactDropdown()
+        setupTurtleDropdown()
+        observeViewModel()
+        setupLocationEditText()
+
+        binding!!.btnSubmitReport.setOnClickListener{
+            submitReportForm()
+        }
+        binding!!.logoSettings.setOnClickListener{
+            startActivity(Intent(activity, SettingsActivity::class.java))
+        }
+
+        return binding?.root
+    }
+
+    private fun submitReportForm(){
+        formData.reporterName = binding?.edReporterName?.text.toString()
+        formData.reporterContact = binding?.edReporterContect?.text.toString()
+        if (formData.reporterName.isEmpty() ||
+            formData.reporterContact.isEmpty() ||
+            formData.turtleLocation.lat.isEmpty() ||
+            formData.turtleLocation.long.isEmpty() ||
+            formData.contactId.isEmpty() || formData.turtleId.isEmpty()
+        ) {
+            Toast.makeText(requireContext(), "Make sure all input's are filled", Toast.LENGTH_LONG).show()
+            return
+        } else {
+            viewModel.submitReportForm(formData,
+                onSuccess = {message ->
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    clearForm()
+                },
+                onError = {message ->
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
+    }
+
+    private fun clearForm(){
+        binding?.edReporterName?.setText("")
+        binding?.edReporterContect?.setText("")
+        binding?.edLocation?.setText("")
+        binding?.contactDropdownSelector?.setText("")
+        binding?.turtleDropdownSelector?.setText("")
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(this)[ReportTurtleViewModel::class.java]
+        contactsAdapter = ArrayAdapter(requireContext(), R.layout.contact_dropdown_item, contactList)
+        contactsAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+        turtlesAdapter = TurtleAdapter(requireContext(), turtleList)
+        turtlesAdapter.setDropDownViewResource(R.layout.turtle_dropdown_item)
+    }
+
+    private fun setupContactDropdown() {
+        binding?.contactDropdownSelector?.setAdapter(contactsAdapter)
+        binding?.contactDropdownSelector?.setOnItemClickListener{ _, _, position, _ ->
+            val selectedItem = contactList[position]
+            formData.contactId = selectedItem
+        }
+    }
+
+    private fun setupTurtleDropdown() {
+        binding?.turtleDropdownSelector?.setAdapter(turtlesAdapter)
+        binding?.turtleDropdownSelector?.setOnItemClickListener{ _, _,position, _ ->
+            val selectedTurtle = turtlesAdapter.getItem(position)
+            formData.turtleId = selectedTurtle?.name ?: ""
+        }
+    }
+
+    private fun observeViewModel() {
+        viewModel.contactsLiveData.observe(viewLifecycleOwner) { contacts ->
+            contactList.clear()
+            contactList.addAll(contacts)
+            contactsAdapter.notifyDataSetChanged()
+        }
+        viewModel.turtlesLiveData.observe(viewLifecycleOwner) { turtles ->
+            turtleList.clear()
+            turtleList.addAll(turtles)
+            turtlesAdapter.notifyDataSetChanged()
+        }
+        viewModel.fetchContacts()
+        viewModel.fetchTurtles()
+    }
+
+    private fun setupLocationEditText() {
+        binding?.edLocation?.setOnFocusChangeListener { _, focused ->
+            if (focused) {
+                val intent = Intent(requireContext(), LocationSelectorActivity::class.java)
+                startActivityForResult(intent, REQUEST_CODE)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val latitude = data?.getDoubleExtra("latitude", 0.0)
+            val longitude = data?.getDoubleExtra("longitude", 0.0)
+            binding?.edLocation?.setText("Lat: $latitude\nLong: $longitude")
+            formData.turtleLocation = TurtleLocation(latitude.toString(), longitude.toString())
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ReportTurtleFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ReportTurtleFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        const val REQUEST_CODE = 123
+    }
+}
+
+class TurtleAdapter(private val mContext: Context, mTurtleList: List<Turtle>) :
+    ArrayAdapter<Turtle?>(mContext, 0, mTurtleList) {
+    private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        return createItemView(position, convertView, parent)
+    }
+
+    private fun createItemView(position: Int, convertView: View?, parent: ViewGroup): View {
+        var view = convertView
+        if (view == null) {
+            view = mInflater.inflate(R.layout.turtle_dropdown_item, parent, false)
+        }
+        val imageView = view?.findViewById<ImageView>(R.id.image_turtle)
+        val textView = view?.findViewById<TextView>(R.id.tv_turtle_name)
+        val turtle = getItem(position)
+
+        if (turtle != null && textView != null && imageView != null) {
+            textView.text = turtle.name
+            Glide.with(mContext).load(turtle.image).centerCrop()
+                .into(imageView)
+        }
+
+        return view ?: LayoutInflater.from(mContext).inflate(R.layout.turtle_dropdown_item, parent, false)
     }
 }
