@@ -47,7 +47,6 @@
 
 <!--    Activity Title-->
     <string name="title_activity_location_selector">LocationSelectorActivity</string>
-
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_suggestion">Suggestion</string>
     <string name="title_activity_about">About</string>
@@ -74,6 +73,8 @@
     <string name="remember_1"> Don’t hurt any turtles</string>
     <string name="remember_2">Pay attention to surrounding environment and stay safe when taking pictures</string>
     <string name="remember_3">Don’t touch any unknown wild turtles, because some may be dangerous</string>
+    <string name="title_activity_news">News Detail</string>
+    <string name="edit_text_help_hint">Describe your help</string>
 
 <!--    Warning Text-->
     <string name="empty_image_warning">Please take a picture or choose image from gallery first</string>

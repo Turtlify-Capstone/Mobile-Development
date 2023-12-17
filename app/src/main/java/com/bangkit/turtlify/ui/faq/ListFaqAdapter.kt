@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.turtlify.R
-import com.bangkit.turtlify.data.model.FaqItem
+import com.bangkit.turtlify.data.model.faq.FaqItem
 
 class ListFaqAdapter(private val faqList: List<FaqItem>) : RecyclerView.Adapter<ListFaqAdapter.FaqViewHolder>() {
     class FaqViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
