@@ -16,7 +16,7 @@ import java.io.File
 
 class TurtlifyRepository {
 
-    private val apiService = ApiConfig().getApiService()
+    private val apiService = ApiConfig.getApiService()
     suspend fun uploadImage(
         imageFile: File,
         onSuccess: (ImageUploadResponse) -> Unit,

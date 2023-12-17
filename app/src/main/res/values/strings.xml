@@ -47,7 +47,6 @@
 
 <!--    Activity Title-->
     <string name="title_activity_location_selector">LocationSelectorActivity</string>
-    <string name="empty_image_warning">Please take a picture or choose image from gallery first</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_suggestion">Suggestion</string>
     <string name="title_activity_about">About</string>

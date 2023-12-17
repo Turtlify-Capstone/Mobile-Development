@@ -15,12 +15,11 @@ interface ApiService {
     @POST("upload")
     suspend fun uploadImage(
         @Part file: MultipartBody.Part
-    ): Call<ImageUploadResponse>
+    ): ImageUploadResponse
 
     @POST("FeedbackEmail")
     fun sendFeedback(@Body feedbackData: FeedbackData): Call<Void>
 
     @POST("AddFeedback")
     fun sendSuggestion(@Body suggestionData: Suggestion): Call<Void>
-    ): Call<Void>
 }
