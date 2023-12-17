@@ -9,7 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.databinding.ActivityMainBinding
-import com.bangkit.turtlify.ui.camera.IdentifierActivity
+import com.bangkit.turtlify.ui.identifier.IdentifierActivity
 
 class MainActivity : AppCompatActivity() {
 

@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.databinding.FragmentReportTurtleBinding
+import com.bangkit.turtlify.ui.settings.SettingsActivity
 import com.bangkit.turtlify.ui.viemodels.ReportTurtleViewModel
 import com.bangkit.turtlify.ui.viemodels.Turtle
 import com.bumptech.glide.Glide
@@ -25,6 +26,7 @@ data class TurtleLocation(
 )
 data class FormData(
     var reporterName: String,
+    var reporterContact: String,
     var turtleLocation: TurtleLocation,
     var contactId: String,
     var turtleId: String
@@ -39,27 +41,35 @@ class ReportTurtleFragment : Fragment() {
     private lateinit var contactsAdapter: ArrayAdapter<String>
     private lateinit var turtlesAdapter: TurtleAdapter
     private lateinit var viewModel: ReportTurtleViewModel
-    private var formData = FormData("", TurtleLocation("",""),"","")
+    private var formData = FormData("", "", TurtleLocation("",""),"","")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentReportTurtleBinding.inflate(inflater, container, false)
-        binding!!.btnSubmitReport.setOnClickListener{
-            submitReportForm()
-        }
+
         setupViewModel()
         setupContactDropdown()
         setupTurtleDropdown()
         observeViewModel()
         setupLocationEditText()
+
+        binding!!.btnSubmitReport.setOnClickListener{
+            submitReportForm()
+        }
+        binding!!.logoSettings.setOnClickListener{
+            startActivity(Intent(activity, SettingsActivity::class.java))
+        }
+
         return binding?.root
     }
 
     private fun submitReportForm(){
-        formData.reporterName = binding?.edName?.text.toString()
+        formData.reporterName = binding?.edReporterName?.text.toString()
+        formData.reporterContact = binding?.edReporterContect?.text.toString()
         if (formData.reporterName.isEmpty() ||
+            formData.reporterContact.isEmpty() ||
             formData.turtleLocation.lat.isEmpty() ||
             formData.turtleLocation.long.isEmpty() ||
             formData.contactId.isEmpty() || formData.turtleId.isEmpty()
@@ -67,16 +77,21 @@ class ReportTurtleFragment : Fragment() {
             Toast.makeText(requireContext(), "Make sure all input's are filled", Toast.LENGTH_LONG).show()
             return
         } else {
-            val response = viewModel.submitReportForm(formData)
-            if (response != null) {
-                Toast.makeText(requireContext(), response.message, Toast.LENGTH_LONG).show()
-                if (response.success) clearForm()
-            }
+            viewModel.submitReportForm(formData,
+                onSuccess = {message ->
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    clearForm()
+                },
+                onError = {message ->
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                }
+            )
         }
     }
 
     private fun clearForm(){
-        binding?.edName?.setText("")
+        binding?.edReporterName?.setText("")
+        binding?.edReporterContect?.setText("")
         binding?.edLocation?.setText("")
         binding?.contactDropdownSelector?.setText("")
         binding?.turtleDropdownSelector?.setText("")
@@ -102,11 +117,7 @@ class ReportTurtleFragment : Fragment() {
         binding?.turtleDropdownSelector?.setAdapter(turtlesAdapter)
         binding?.turtleDropdownSelector?.setOnItemClickListener{ _, _,position, _ ->
             val selectedTurtle = turtlesAdapter.getItem(position)
-            val selectedTurtleName = selectedTurtle?.name ?: ""
-            //TODO 1 change the tuertle name to turtle id
             formData.turtleId = selectedTurtle?.name ?: ""
-
-            binding?.turtleDropdown?.editText?.setText(selectedTurtleName)
         }
     }
 
@@ -120,9 +131,6 @@ class ReportTurtleFragment : Fragment() {
             turtleList.clear()
             turtleList.addAll(turtles)
             turtlesAdapter.notifyDataSetChanged()
-        }
-        viewModel.isFormSubmitting.observe(viewLifecycleOwner){isSubmitting ->
-            binding?.progressBar?.visibility  = if (isSubmitting) View.VISIBLE else View.GONE
         }
         viewModel.fetchContacts()
         viewModel.fetchTurtles()

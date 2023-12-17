@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bangkit.turtlify.network.repository.NetworkRepository
+import com.bangkit.turtlify.data.network.model.ImageUploadResponse
+import com.bangkit.turtlify.data.repository.TurtlifyRepository
 import com.bangkit.turtlify.ui.report.FormData
 import kotlinx.coroutines.launch
+import java.io.File
 
 class Contact (
     val email: String,
@@ -29,19 +31,17 @@ class Turtle (
 
 
 class ReportTurtleViewModel: ViewModel() {
-    private val networkRepository: NetworkRepository = NetworkRepository()
+    private val turtlifyRepository:  TurtlifyRepository = TurtlifyRepository()
     private val _contactsLiveData = MutableLiveData<List<String>>()
     private val _turtlesLiveData = MutableLiveData<List<Turtle>>()
-    private val _isFormSubmitting = MutableLiveData<Boolean>(false)
 
     val contactsLiveData: LiveData<List<String>> = _contactsLiveData
     val turtlesLiveData: LiveData<List<Turtle>> = _turtlesLiveData
-    val isFormSubmitting : LiveData<Boolean> = _isFormSubmitting
 
     fun fetchContacts() {
         viewModelScope.launch {
             try {
-                val contacts = networkRepository.getContacts()
+                val contacts = turtlifyRepository.getContacts()
                 val formattedContacts = contacts.map { "${it.email}, ${it.institution}" }
                 _contactsLiveData.postValue(formattedContacts)
             } catch (e: Exception) {
@@ -53,27 +53,20 @@ class ReportTurtleViewModel: ViewModel() {
     fun fetchTurtles() {
         viewModelScope.launch {
             try {
-                val turtles = networkRepository.getTurtles()
+                val turtles = turtlifyRepository.getTurtles()
                 _turtlesLiveData.postValue(turtles)
             } catch (e: Exception) {
                 // Handle the error or propagate it further
             }
         }
     }
-
-    fun submitReportForm(formData: FormData): Response? {
-        var response: Response? = null
+    fun submitReportForm(
+        formData: FormData,
+        onSuccess: (String) -> Unit,
+        onError: (String) -> Unit
+    ){
         viewModelScope.launch {
-             try {
-                 _isFormSubmitting.postValue(true)
-                 networkRepository.submitReportForm(formData)
-                response = Response(true, "Report submitted successfully")
-                _isFormSubmitting.postValue(false)
-            }catch (e: Exception){
-                 _isFormSubmitting.postValue(false)
-             }
+             turtlifyRepository.submitReportForm(formData, onSuccess, onError)
         }
-
-        return response
     }
 }

@@ -56,7 +56,7 @@
         <activity android:name=".ui.suggestion.SuggestionActivity"/>
         <activity android:name=".ui.about.AboutActivity"/>
         <activity android:name=".ui.maps.MapsActivity"/>
-        <activity android:name=".ui.camera.IdentifierActivity"/>
+        <activity android:name=".ui.identifier.IdentifierActivity"/>
         <activity android:name=".ui.instruction.InstructionActivity"/>
         <activity android:name=".ui.encyclopedia.EncyclopediaActivity"/>
 
