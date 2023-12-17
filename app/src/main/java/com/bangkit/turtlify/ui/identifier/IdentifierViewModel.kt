@@ -1,15 +1,10 @@
-package com.bangkit.turtlify.ui.camera
+package com.bangkit.turtlify.ui.identifier
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bangkit.turtlify.data.network.model.ImageUploadResponse
 import com.bangkit.turtlify.data.repository.TurtlifyRepository
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import retrofit2.HttpException
 import java.io.File
 
 class IdentifierViewModel: ViewModel() {

@@ -17,6 +17,7 @@
         <item>@font/poppins_medium_italic</item>
         <item>@font/poppins_semibold</item>
         <item>@font/poppins_semibold_italic</item>
-<!--        <item>@font/poppins_thin</item>-->
+        <item>@font/poppins_thin</item>
+        <item>@font/poppins_thin_italic</item>
     </array>
 </resources>
