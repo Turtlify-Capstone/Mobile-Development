@@ -56,16 +56,27 @@
             app:layout_constraintTop_toBottomOf="@+id/image_feedback" />
 
         <!--    radio button -->
-        <GridLayout
-            android:id="@+id/gridLayout"
+        <!--        <GridLayout-->
+        <!--            android:id="@+id/gridLayout"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center_horizontal"-->
+        <!--            android:layout_marginStart="24dp"-->
+        <!--            android:layout_marginEnd="24dp"-->
+        <!--            android:alignmentMode="alignMargins"-->
+        <!--            android:columnCount="2"-->
+        <!--            android:rowCount="2"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/tv_title_feedback_type">-->
+
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:alignmentMode="alignMargins"
-            android:columnCount="2"
-            android:rowCount="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_feedback_type">
@@ -88,7 +99,6 @@
                     android:id="@+id/rbQuestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:text="@string/rb_feedback"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rbTechnicalIssue"
@@ -107,15 +117,17 @@
                     android:id="@+id/rbContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:text="@string/rb_content"
                     app:layout_constraintStart_toStartOf="@+id/rbFeedback"
                     app:layout_constraintTop_toBottomOf="@+id/rbFeedback"
                     tools:ignore="MissingConstraints" />
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </GridLayout>
+
+        </RadioGroup>
+
+
+        <!--        </GridLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_edit_text_layout"
@@ -126,10 +138,10 @@
             android:hint="@string/edit_text_email_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gridLayout">
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email_edit_text"
+                android:id="@+id/email_input_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -151,7 +163,7 @@
             app:layout_constraintTop_toBottomOf="@+id/email_edit_text_layout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/feedback_edit_text"
+                android:id="@+id/feedback_input_text"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:ems="10"
@@ -174,6 +186,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/feedback_edit_text_layout" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
