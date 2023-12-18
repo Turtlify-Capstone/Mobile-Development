@@ -43,8 +43,11 @@
             android:exported="false"
             android:label="@string/title_activity_location_selector" />
         <activity
-            android:exported="true"
-            android:name=".ui.homescreen.MainActivity">
+            android:name=".ui.encyclopediadetail.EncyclopediaDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.homescreen.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -22,6 +22,7 @@ import com.bangkit.turtlify.data.network.model.FetchTurtlesResponse
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.ActivityMapsBinding
 import com.bangkit.turtlify.ui.encyclopedia.EncyclopediaActivity
+import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
 import com.bangkit.turtlify.utils.addCircularBorderToBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -78,7 +79,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             selectedTurtle.value = null
         }
         binding.turtleCard.setOnClickListener{
-            val intent = Intent(this, EncyclopediaActivity::class.java)
+            val intent = Intent(this, EncyclopediaDetailActivity::class.java)
             intent.putExtra("turtleData", selectedTurtle.value)
             startActivity(intent)
         }

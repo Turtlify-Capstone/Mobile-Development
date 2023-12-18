@@ -34,7 +34,7 @@
     <string name="message_title">Still need help? Contact our support team</string>
     <string name="submit_message">Send a message</string>
 
-      <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_maps">Maps</string>
     <string name="title_camera">Camera</string>
@@ -54,6 +54,7 @@
     <string name="title_activity_faq">FAQ &amp; Help</string>
     <string name="title_activity_instruction">Instruction</string>
     <string name="title_activity_encyclopedia">Encyclopedia</string>
+    <string name="title_activity_encyclopedia_detail">Encyclopedia detail</string>
 
 <!--    Home Screen-->
     <string name="searchbar_hint">Search Turtles</string>
