@@ -15,11 +15,9 @@ import com.bumptech.glide.Glide
 
 class EncyclopediaDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEncyclopediaDetailBinding
-    private lateinit var viewModel: EncyclopediaViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEncyclopediaDetailBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[EncyclopediaViewModel::class.java]
         setContentView(binding.root)
         setupView()
 
@@ -29,23 +27,26 @@ class EncyclopediaDetailActivity : AppCompatActivity() {
 
         if(turtle !== null){
             with(binding) {
-                tvTurtleName.text = turtle.namaLokal!!.split(",").first()
-                tvTurtleLatinName.text = turtle.namaLatin
+                tvName.text = turtle.namaLokal!!.split(",").first()
+                tvLatinName.text = turtle.namaLatin
+                tvAlias.text = turtle.namaLokal
 
                 if(turtle.statusKonversi!!.split(" ").contains("dilindungi")){
-                    tvTurtleStatus.text = "dilindungi"
-                    tvTurtleStatus.setTextColor(getColor(R.color.status_red))
+                    tvStatus.text = "dilindungi"
+                    tvStatus.setTextColor(getColor(R.color.red_text))
+                    tvStatus.setBackgroundColor(getColor(R.color.red_text_bg))
                 } else{
-                    tvTurtleStatus.text = "tidak dilindungi"
-                    tvTurtleStatus.setTextColor(getColor(R.color.status_green))
+                    tvStatus.text = "tidak dilindungi"
+                    tvStatus.setTextColor(getColor(R.color.green_text))
+                    tvStatus.setBackgroundColor(getColor(R.color.green_text_bg))
                 }
 
                 tvDescription.text = turtle.description
-                tvFoodValue.text = "Not available"
-                tvLifeValue.text = "Not available"
+                tvHabitat.text = turtle.habitat
+                tvPersebaranHabitat.text = turtle.persebaranHabitat
 
                 Glide.with(this@EncyclopediaDetailActivity)
-                    .load(turtle.image!!.split(",").first()).centerCrop()
+                    .load(turtle.image!!.split(",").first()).fitCenter()
                     .into(turtleImage)
             }
         }
@@ -56,7 +57,7 @@ class EncyclopediaDetailActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.my_toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
-            title = getString(R.string.title_activity_encyclopedia)
+            title = getString(R.string.title_activity_encyclopedia_detail)
             setDisplayHomeAsUpEnabled(true)
         }
     }

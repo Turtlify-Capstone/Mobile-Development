@@ -13,10 +13,10 @@ class EncyclopediaViewModel : ViewModel() {
     private val repository = TurtlifyRepository()
 
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
-    private val _encyclopedia:MutableLiveData<List<FetchTurtlesResponseItem>?> = MutableLiveData()
+    private val _encyclopedia:MutableLiveData<List<FetchTurtlesResponseItem>> = MutableLiveData()
 
     val isLoading: LiveData<Boolean> = _isLoading
-    val encyclopedia: MutableLiveData<List<FetchTurtlesResponseItem>?> = _encyclopedia
+    val encyclopedia: MutableLiveData<List<FetchTurtlesResponseItem>> = _encyclopedia
 
     fun getTurtlesEncyclopedia(){
         viewModelScope.launch {

@@ -45,12 +45,12 @@ class EncyclopediaActivity : AppCompatActivity() {
     }
 
     private fun showRecyclerList(turtles: List<FetchTurtlesResponseItem>) {
-        val rvEncyclopedia = binding.rvEncyclopedia // Access RecyclerView from binding
+        val rvEncyclopedia = binding.rvEncyclopedia
 
-        val listHeroAdapter = EncyclopediaAdapter(this, turtles)
-        rvEncyclopedia.adapter = listHeroAdapter
+        val listTurtleAdapter = EncyclopediaAdapter(this, turtles)
+        rvEncyclopedia.adapter = listTurtleAdapter
 
-        listHeroAdapter.setOnItemClickCallback(object : EncyclopediaAdapter.OnItemClickCallback {
+        listTurtleAdapter.setOnItemClickCallback(object : EncyclopediaAdapter.OnItemClickCallback {
             override fun onItemClicked(data: FetchTurtlesResponseItem) {
                 val intent = Intent(this@EncyclopediaActivity, EncyclopediaDetailActivity::class.java)
                 intent.putExtra("turtleData", data)

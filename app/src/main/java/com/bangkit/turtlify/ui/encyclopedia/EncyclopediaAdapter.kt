@@ -32,10 +32,10 @@ class EncyclopediaAdapter(private val context: Context, private val listEncyclop
         holder.tvItemLatinName.text = namaLatin
         if(status!!.split(" ").contains("dilindungi")){
             holder.tvItemStatus.text = "dilindungi"
-            holder.tvItemStatus.setTextColor(context.getColor(R.color.status_red))
+            holder.tvItemStatus.setTextColor(context.getColor(R.color.red_text))
         } else{
             holder.tvItemStatus.text = "tidak dilindungi"
-            holder.tvItemStatus.setTextColor(context.getColor(R.color.status_green))
+            holder.tvItemStatus.setTextColor(context.getColor(R.color.green_text))
         }
         Glide.with(context).load(
             image!!.split(",").first())

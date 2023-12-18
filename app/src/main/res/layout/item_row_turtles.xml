@@ -49,25 +49,34 @@
             />
 
         <TextView
-            android:id="@+id/tv_item_latin_name"
+            android:id="@+id/tv_item_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppins"
             android:layout_marginStart="18dp"
-            tools:text="Latin name"
-            android:fontFamily="@font/poppins_italic"
-            android:textSize="16sp"
+            tools:text="status"
+            android:textSize="14sp"
             card_view:layout_constraintStart_toEndOf="@id/item_photo_wrapper"
             card_view:layout_constraintBottom_toBottomOf="@id/item_photo_wrapper"
             />
 
         <TextView
-            android:id="@+id/tv_item_status"
+            android:id="@+id/tv_item_latin_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="status"
-            android:fontFamily="@font/poppins"
-            android:textSize="16sp"
+            android:fontFamily="@font/poppins_italic"
+            android:textSize="14sp"
+            android:layout_marginStart="18dp"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/item_photo_wrapper"
+            card_view:layout_constraintTop_toTopOf="parent"
+            tools:text="Latin name" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_arrow_forward_24"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
