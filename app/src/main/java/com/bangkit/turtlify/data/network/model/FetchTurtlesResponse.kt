@@ -1,6 +1,8 @@
 package com.bangkit.turtlify.data.network.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class FetchTurtlesResponse(
 
@@ -8,6 +10,7 @@ data class FetchTurtlesResponse(
 	val fetchTurtlesResponse: List<FetchTurtlesResponseItem>? = null
 )
 
+@Parcelize
 data class FetchTurtlesResponseItem(
 
 	@field:SerializedName("nama_lokal")
@@ -39,4 +42,4 @@ data class FetchTurtlesResponseItem(
 
 	@field:SerializedName("status_konversi")
 	val statusKonversi: String? = null
-)
+) : Parcelable

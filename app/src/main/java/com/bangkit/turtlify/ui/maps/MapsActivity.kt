@@ -1,5 +1,6 @@
 package com.bangkit.turtlify.ui.maps
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -20,6 +21,7 @@ import com.bangkit.turtlify.R
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponse
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.ActivityMapsBinding
+import com.bangkit.turtlify.ui.encyclopedia.EncyclopediaActivity
 import com.bangkit.turtlify.utils.addCircularBorderToBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -76,7 +78,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             selectedTurtle.value = null
         }
         binding.turtleCard.setOnClickListener{
-            Log.d("SELECTED_TURTLE", selectedTurtle.value.toString())
+            val intent = Intent(this, EncyclopediaActivity::class.java)
+            intent.putExtra("turtleData", selectedTurtle.value)
+            startActivity(intent)
         }
         viewModel.turtles.observe(this){turtles ->
             addManyMarkers(turtles)
