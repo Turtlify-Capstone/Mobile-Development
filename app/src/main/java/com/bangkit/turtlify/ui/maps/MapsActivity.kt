@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.R
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.ActivityMapsBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -25,27 +27,22 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 
-data class Turtle(
-    val name: String,
-    val latinName: String,
-    val status: String,
-    val imageUrl: String,
-    val latitude: Double,
-    val longitude: Double
-)
-
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+    private lateinit var viewModel: MapsViewModel
     private val boundsBuilder = LatLngBounds.Builder()
-    private val selectedTurtle:MutableLiveData<Turtle?> = MutableLiveData()
+    private val selectedTurtle:MutableLiveData<FetchTurtlesResponseItem?> = MutableLiveData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this)[MapsViewModel::class.java]
+        viewModel.fetchTurtles()
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -65,15 +62,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isMapToolbarEnabled = true
 
         getMyLocation()
-        addManyMarker()
         observeSelectedTurtle()
 
         mMap.setOnMapClickListener {
             selectedTurtle.value = null
         }
-
         binding.turtleCard.setOnClickListener{
-            Log.d("SELECTED_TURTE", selectedTurtle.value.toString())
+            Log.d("SELECTED_TURTLE", selectedTurtle.value.toString())
+        }
+        viewModel.turtles.observe(this){turtles ->
+            addManyMarker(turtles)
         }
     }
 
@@ -108,24 +106,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
-    private fun addManyMarker() {
-        val turtlePlace = listOf(
-            Turtle("Floating Market Lembang", "Latin name", "dilindungi" , "https://www.fisheries.noaa.gov/s3/styles/original/s3/2021-07/640x427-Turtle_Green_NOAAFisheries.png" , -6.8168954,107.6151046),
-            Turtle("The Great Asia Africa", "Latin name", "dilindungi", "https://images.squarespace-cdn.com/content/v1/59cae0d6be42d63f64cf6dd2/1542902265247-7TO79BP2LWFFEALYZJK9/Witherington2018-10.png?format=750w" , -6.8331128,107.6048483),
-            Turtle("Rabbit Town", "Latin name", "Tidak dilindungi", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrcsDrhi0zMrpg46TWprj3iNo87nUURujNGQ&usqp=CAU" ,-6.8668408,107.608081),
-        )
-        turtlePlace.forEach { turtle ->
-            val latLng = LatLng(turtle.latitude, turtle.longitude)
+    private fun addManyMarker(turtles: List<FetchTurtlesResponseItem>) {
+        turtles.forEach { turtle ->
+            val latLng = LatLng(turtle.latitude!!.toDouble(), turtle.longitude!!.toDouble())
             Glide.with(this)
                 .asBitmap()
                 .apply(RequestOptions().override(60, 60).circleCrop())
-                .load(turtle.imageUrl)
+                .load(turtle.image!!.split(", ").first())
                 .into(object : SimpleTarget<Bitmap?>() {
                     override fun onResourceReady(
                         resource: Bitmap,
                         transition: Transition<in Bitmap?>?
                     ) {
-                        val marker = mMap.addMarker(MarkerOptions().position(latLng).title(turtle.name))
+                        val marker = mMap.addMarker(MarkerOptions().position(latLng).title(turtle.namaLokal))
                         marker!!.setIcon(BitmapDescriptorFactory.fromBitmap(resource))
                         marker.tag = turtle
                     }
@@ -134,7 +127,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             boundsBuilder.include(latLng)
             mMap.setOnMarkerClickListener { marker ->
                 if (marker.tag != null) {
-                    selectedTurtle.postValue(marker.tag as Turtle?)
+                    selectedTurtle.postValue(marker.tag as FetchTurtlesResponseItem?)
                 }
                 true
             }
@@ -155,14 +148,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         selectedTurtle.observe(this@MapsActivity){turtle ->
             if(turtle !== null){
                 with(binding) {
-                    turtleCardName.text = turtle.name
-                    turtleCardLatinName.text = turtle.latinName
-                    turtleCardStatus.text = turtle.status
+                    turtleCardName.text = turtle.namaLokal
+                    turtleCardLatinName.text = turtle.namaLokal
+                    turtleCardStatus.text = "dilindungi"
                     turtleCardStatus.setTextColor(getResources().getColor(
-                        if (turtle.status == "dilindungi") R.color.status_green else R.color.status_red
+                        if (turtle.statusKonversi == "dilindungi") R.color.green_text else R.color.red_text
                     ))
                     Glide.with(this@MapsActivity)
-                        .load(turtle.imageUrl).centerCrop()
+                        .load(turtle.image!!.split(", ").first()).centerCrop()
                         .into(turtleCardImage)
 
                     turtleCard.visibility = View.VISIBLE
