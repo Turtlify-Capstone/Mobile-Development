@@ -14,7 +14,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.R
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponse
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.ActivityMapsBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -33,14 +36,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+    private lateinit var viewModel: MapsViewModel
     private val boundsBuilder = LatLngBounds.Builder()
-    private val selectedTurtle:MutableLiveData<Turtle?> = MutableLiveData()
+    private val selectedTurtle:MutableLiveData<FetchTurtlesResponseItem?> = MutableLiveData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this)[MapsViewModel::class.java]
+        viewModel.fetchTurtles()
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -60,15 +67,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isMapToolbarEnabled = true
 
         getMyLocation()
-        addManyMarker()
         observeSelectedTurtle()
 
         mMap.setOnMapClickListener {
             selectedTurtle.value = null
         }
-
         binding.turtleCard.setOnClickListener{
-            Log.d("SELECTED_TURTE", selectedTurtle.value.toString())
+            Log.d("SELECTED_TURTLE", selectedTurtle.value.toString())
+        }
+        viewModel.turtles.observe(this){turtles ->
+            addManyMarker(turtles)
         }
     }
 
@@ -92,6 +100,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 getMyLocation()
             }
         }
+
     private fun getMyLocation() {
         if (ContextCompat.checkSelfPermission(
                 this.applicationContext,
@@ -103,35 +112,41 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
-    private fun addManyMarker() {
-        turtlePlace.forEach { turtle ->
-            val latLng = LatLng(turtle.latitude, turtle.longitude)
-            turtlePlace.forEach { turtle ->
-                val latLng = LatLng(turtle.latitude, turtle.longitude)
-                Glide.with(this)
-                    .asBitmap()
-                    .apply(RequestOptions().override(70, 70).circleCrop())
-                    .load(turtle.imageUrl)
-                    .into(object : SimpleTarget<Bitmap?>() {
-                        override fun onResourceReady(
-                            originalBitmap: Bitmap,
-                            transition: Transition<in Bitmap?>?
-                        ) {
-                            val borderedBitmap = addCircularBorderToBitmap(originalBitmap, Color.GREEN, 10)
-                            val marker = mMap.addMarker(MarkerOptions().position(latLng).title(turtle.name))
-                            marker!!.setIcon(BitmapDescriptorFactory.fromBitmap(borderedBitmap))
-                            marker.tag = turtle
-                        }
-                    })
-            }
 
-            boundsBuilder.include(latLng)
-            mMap.setOnMarkerClickListener { marker ->
-                if (marker.tag != null) {
-                    selectedTurtle.postValue(marker.tag as Turtle?)
+    private fun addMarkerToMap(turtle: FetchTurtlesResponseItem, latLng: LatLng) {
+        Glide.with(this)
+            .asBitmap()
+            .apply(RequestOptions().override(70, 70).circleCrop())
+            .load(turtle.image!!.split(", ").first())
+            .into(object : SimpleTarget<Bitmap?>() {
+                override fun onResourceReady(
+                    originalBitmap: Bitmap,
+                    transition: Transition<in Bitmap?>?
+                ) {
+                    val borderedBitmap = addCircularBorderToBitmap(originalBitmap, Color.GREEN, 10)
+                    addMarkerToMapWithBitmap(turtle, latLng, borderedBitmap)
                 }
-                true
+            })
+    }
+
+    private fun addMarkerToMapWithBitmap(turtle: FetchTurtlesResponseItem, latLng: LatLng, bitmap: Bitmap) {
+        val marker = mMap.addMarker(MarkerOptions().position(latLng).title(turtle.namaLokal))
+        marker?.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap))
+        marker?.tag = turtle
+    }
+
+    private fun addManyMarkers(turtles: List<FetchTurtlesResponseItem>) {
+        turtles.forEach { turtle ->
+            val latLng = LatLng(turtle.latitude!!.toDouble(), turtle.longitude!!.toDouble())
+            addMarkerToMap(turtle, latLng)
+            boundsBuilder.include(latLng)
+        }
+
+        mMap.setOnMarkerClickListener { marker ->
+            if (marker.tag != null) {
+                selectedTurtle.postValue(marker.tag as FetchTurtlesResponseItem?)
             }
+            true
         }
 
         val bounds: LatLngBounds = boundsBuilder.build()
@@ -145,18 +160,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         )
     }
 
+
     private fun observeSelectedTurtle(){
         selectedTurtle.observe(this@MapsActivity){turtle ->
             if(turtle !== null){
                 with(binding) {
-                    turtleCardName.text = turtle.name
-                    turtleCardLatinName.text = turtle.latinName
-                    turtleCardStatus.text = turtle.status
+                    turtleCardName.text = turtle.namaLokal
+                    turtleCardLatinName.text = turtle.namaLokal
+                    turtleCardStatus.text = "dilindungi"
                     turtleCardStatus.setTextColor(getResources().getColor(
-                        if (turtle.status == "dilindungi") R.color.green_text else R.color.red_text
+                        if (turtle.statusKonversi == "dilindungi") R.color.green_text else R.color.red_text
                     ))
                     Glide.with(this@MapsActivity)
-                        .load(turtle.imageUrl).centerCrop()
+                        .load(turtle.image!!.split(", ").first()).centerCrop()
                         .into(turtleCardImage)
 
                     turtleCard.visibility = View.VISIBLE

@@ -2,11 +2,12 @@ package com.bangkit.turtlify.data.repository
 
 import android.util.Log
 import com.bangkit.turtlify.data.network.api.ApiConfig
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.data.network.model.ImageUploadResponse
-import com.bangkit.turtlify.data.network.model.TurtleResponseItem
 import com.bangkit.turtlify.ui.report.FormData
 import com.bangkit.turtlify.ui.viemodels.Contact
 import com.bangkit.turtlify.ui.viemodels.Response
+import com.bangkit.turtlify.ui.viemodels.Turtle
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -16,7 +17,7 @@ import java.io.File
 
 class TurtlifyRepository {
 
-    private val apiService = ApiConfig().getApiService()
+    private val apiService = ApiConfig.getApiService()
     suspend fun uploadImage(
         imageFile: File,
         onSuccess: (ImageUploadResponse) -> Unit,
@@ -47,17 +48,21 @@ class TurtlifyRepository {
             )
         } catch (e: Exception) {
             Log.d("ERRORNETWORKREPO", e.message.toString())
-            listOf() // Return an empty list if an exception occurs
+            listOf()
         }
 
         return contacts
     }
 
-    suspend fun getTurtles(): List<TurtleResponseItem?>? {
-        return try {
-            apiService.getTurtles()
-        } catch (e: HttpException) {
-            Log.e("ERRORNETWORKREPO", e.message.toString())
+    suspend fun fetchTurtles(
+        onSuccess: (List<FetchTurtlesResponseItem>) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        try {
+            val response = apiService.fetchTurtles()
+            onSuccess(response)
+        } catch (e: Exception) {
+            onError(e.message ?: "Unknown error occurred")
         }
     }
 
