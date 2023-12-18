@@ -76,7 +76,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             Log.d("SELECTED_TURTLE", selectedTurtle.value.toString())
         }
         viewModel.turtles.observe(this){turtles ->
-            addManyMarker(turtles)
+            addManyMarkers(turtles)
         }
     }
 
@@ -159,7 +159,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             )
         )
     }
-
 
     private fun observeSelectedTurtle(){
         selectedTurtle.observe(this@MapsActivity){turtle ->

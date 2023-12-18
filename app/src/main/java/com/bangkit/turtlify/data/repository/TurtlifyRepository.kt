@@ -6,7 +6,6 @@ import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.data.network.model.ImageUploadResponse
 import com.bangkit.turtlify.ui.report.FormData
 import com.bangkit.turtlify.ui.viemodels.Contact
-import com.bangkit.turtlify.ui.viemodels.Response
 import com.bangkit.turtlify.ui.viemodels.Turtle
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
@@ -52,6 +51,20 @@ class TurtlifyRepository {
         }
 
         return contacts
+    }
+
+    fun getTurtles(): List<Turtle>{
+        val turtles: List<Turtle> = try {
+            listOf(
+                Turtle("Moncong babi", "https://www.balisafarimarinepark.com/wp-content/uploads/2022/02/fosil-penyu-hidung-babi-yang-langka-ditemukan-di-australia-nmu-600x400.jpg?p=27766"),
+                Turtle("Galapagos", "https://asset-a.grid.id/crop/0x0:0x0/780x800/photo/bobofoto/original/11638_kura-kura-raksa-di-pulau-aldabra.jpg")
+            )
+        }catch (e: Exception){
+            Log.d("ERRORNETWORKREPO", e.message.toString())
+            listOf()
+        }
+
+        return turtles
     }
 
     suspend fun fetchTurtles(
