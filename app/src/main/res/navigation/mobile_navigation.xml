@@ -19,9 +19,9 @@
 
     <activity
         android:id="@+id/navigation_camera"
-        android:name="com.bangkit.turtlify.ui.camera.CameraActivity"
+        android:name="com.bangkit.turtlify.ui.identifier.IdentifierActivity"
         android:label="@string/title_camera"
-        tools:layout="@layout/activity_camera" />
+        tools:layout="@layout/activity_identifier" />
 
     <fragment
         android:id="@+id/navigation_report_turtle"

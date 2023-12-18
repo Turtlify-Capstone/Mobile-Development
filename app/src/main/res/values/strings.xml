@@ -9,7 +9,6 @@
     <string name="share">Share this app</string>
     <string name="dark_mode">Dark Mode</string>
 
-
 <!--    About Screen-->
     <string name="about_version">Turtlify v1.0</string>
     <string name="about_desc_app">Instantly Identify Turtles</string>
@@ -34,21 +33,51 @@
 <!--    FAQ Screen-->
     <string name="message_title">Still need help? Contact our support team</string>
     <string name="submit_message">Send a message</string>
-  
-      <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_maps">Maps</string>
     <string name="title_camera">Camera</string>
     <string name="title_report_turtle">Report</string>
     <string name="title_history">History</string>
+    <string name="select">Select item</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 <!--    Activity Title-->
-    <string name="empty_image_warning">Please take a picture or choose image from gallery first</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_location_selector">LocationSelectorActivity</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_suggestion">Suggestion</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_faq">FAQ &amp; Help</string>
+    <string name="title_activity_instruction">Instruction</string>
+    <string name="title_activity_encyclopedia">Encyclopedia</string>
+    <string name="title_activity_encyclopedia_detail">Encyclopedia detail</string>
+
+<!--    Home Screen-->
+    <string name="searchbar_hint">Search Turtles</string>
+    <string name="encyclopedia">Encyclopedia</string>
+    <string name="image_description">Turtle</string>
+    <string name="news">News</string>
+
+<!--    Instruction-->
+    <string name="how_to_use_title">How to use Turtlify</string>
+    <string name="how_to_use_content">To start identify a turtle simply take a picture of the turtle or select a picture of turtle from your “Photos” and Turtlify will identify it instantly</string>
+    <string name="tips_title">Tips for Identifying</string>
+    <string name="tips_desc">A clear shot of turtle with proper angle and distance will help us identify turtles more accurately.</string>
+    <string name="tips_1">1. Focus the turtle at the center of the frame</string>
+    <string name="tips_2">2. If there are several turtles, just focus on single turtle</string>
+    <string name="tips_3">3. Avoid getting to close, just make sure the whole body of turtle are clear and complete</string>
+    <string name="tips_4">4. Avoid dark or blurry image.</string>
+    <string name="remember_title">Remember</string>
+    <string name="remember_1"> Don’t hurt any turtles</string>
+    <string name="remember_2">Pay attention to surrounding environment and stay safe when taking pictures</string>
+    <string name="remember_3">Don’t touch any unknown wild turtles, because some may be dangerous</string>
+    <string name="title_activity_news">News Detail</string>
+    <string name="edit_text_help_hint">Describe your help</string>
+
+<!--    Warning Text-->
+    <string name="empty_image_warning">Please take a picture or choose image from gallery first</string>
 </resources>
