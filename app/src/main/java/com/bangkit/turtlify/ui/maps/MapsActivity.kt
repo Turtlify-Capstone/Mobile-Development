@@ -4,6 +4,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Color.pack
 import android.graphics.Paint
 import android.graphics.RectF
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.bangkit.turtlify.R
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponse
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.ActivityMapsBinding
+import com.bangkit.turtlify.utils.addCircularBorderToBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -31,6 +33,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.gson.annotations.SerializedName
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -123,14 +126,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     originalBitmap: Bitmap,
                     transition: Transition<in Bitmap?>?
                 ) {
-                    val borderedBitmap = addCircularBorderToBitmap(originalBitmap, Color.GREEN, 10)
+                    val borderedBitmap = addCircularBorderToBitmap(originalBitmap, Color.CYAN, 10)
                     addMarkerToMapWithBitmap(turtle, latLng, borderedBitmap)
                 }
             })
     }
 
     private fun addMarkerToMapWithBitmap(turtle: FetchTurtlesResponseItem, latLng: LatLng, bitmap: Bitmap) {
-        val marker = mMap.addMarker(MarkerOptions().position(latLng).title(turtle.namaLokal))
+        val marker = mMap.addMarker(
+            MarkerOptions()
+                .position(latLng)
+                .title(turtle.namaLokal!!.split(",").first())
+        )
         marker?.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap))
         marker?.tag = turtle
     }
@@ -164,12 +171,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         selectedTurtle.observe(this@MapsActivity){turtle ->
             if(turtle !== null){
                 with(binding) {
-                    turtleCardName.text = turtle.namaLokal
-                    turtleCardLatinName.text = turtle.namaLokal
-                    turtleCardStatus.text = "dilindungi"
-                    turtleCardStatus.setTextColor(getResources().getColor(
-                        if (turtle.statusKonversi == "dilindungi") R.color.green_text else R.color.red_text
-                    ))
+                    turtleCardName.text = turtle.namaLokal!!.split(",").first()
+                    turtleCardLatinName.text = turtle.namaLatin
+                    if (turtle.statusKonversi!!.split(" ").contains("dilindungi")){
+                        turtleCardStatus.text = "dilindungi"
+                        turtleCardStatus.setTextColor(resources.getColor(R.color.green_text))
+                    } else {
+                        turtleCardStatus.text = "tidak dilindungi"
+                        turtleCardStatus.setTextColor(resources.getColor(R.color.red_text))
+                    }
                     Glide.with(this@MapsActivity)
                         .load(turtle.image!!.split(", ").first()).centerCrop()
                         .into(turtleCardImage)
@@ -180,25 +190,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 binding.turtleCard.visibility = View.GONE
             }
         }
-    }
-
-    private fun addCircularBorderToBitmap(bitmap: Bitmap, borderColor: Int, borderWidth: Int): Bitmap {
-        val diameter = bitmap.width.coerceAtMost(bitmap.height) + borderWidth * 2
-        val center = diameter / 2f
-
-        val borderPaint = Paint().apply {
-            color = borderColor
-            style = Paint.Style.STROKE
-            strokeWidth = borderWidth.toFloat()
-            isAntiAlias = true
-        }
-
-        val borderBitmap = Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(borderBitmap)
-
-        canvas.drawCircle(center, center, center - borderWidth, borderPaint)
-        canvas.drawBitmap(bitmap, center - bitmap.width / 2f, center - bitmap.height / 2f, null)
-
-        return borderBitmap
     }
 }

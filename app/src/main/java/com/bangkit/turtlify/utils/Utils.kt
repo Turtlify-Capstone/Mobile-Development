@@ -108,6 +108,26 @@ fun vectorToBitmap(@DrawableRes id: Int, @ColorInt color: Int, resources: Resour
     return BitmapDescriptorFactory.fromBitmap(bitmap)
 }
 
+fun addCircularBorderToBitmap(bitmap: Bitmap, borderColor: Int, borderWidth: Int): Bitmap {
+    val diameter = bitmap.width.coerceAtMost(bitmap.height) + borderWidth * 2
+    val center = diameter / 2f
+
+    val borderPaint = Paint().apply {
+        color = borderColor
+        style = Paint.Style.STROKE
+        strokeWidth = borderWidth.toFloat()
+        isAntiAlias = true
+    }
+
+    val borderBitmap = Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(borderBitmap)
+
+    canvas.drawCircle(center, center, center - borderWidth, borderPaint)
+    canvas.drawBitmap(bitmap, center - bitmap.width / 2f, center - bitmap.height / 2f, null)
+
+    return borderBitmap
+}
+
 fun isNetworkAvailable(context: Context): Boolean {
     val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
