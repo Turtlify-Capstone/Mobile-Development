@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.turtlify.R
-import com.bangkit.turtlify.data.repository.Turtle
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bumptech.glide.Glide
 
-class EncyclopediaAdapter(private val context: Context, private val listEncyclopedia: List<Turtle>) : RecyclerView.Adapter<EncyclopediaAdapter.ListViewHolder>() {
+class EncyclopediaAdapter(private val context: Context, private val listEncyclopedia: List<FetchTurtlesResponseItem>) : RecyclerView.Adapter<EncyclopediaAdapter.ListViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
@@ -22,18 +21,25 @@ class EncyclopediaAdapter(private val context: Context, private val listEncyclop
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): EncyclopediaAdapter.ListViewHolder {
+    ): ListViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_row_turtles, parent, false)
         return ListViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: EncyclopediaAdapter.ListViewHolder, position: Int) {
-        val (id, name, latinName, status, imageUrl) = listEncyclopedia[position]
-        holder.tvItemName.text = name
-        holder.tvItemLatinName.text = latinName
-        holder.tvItemStatus.text = status
-        holder.tvItemStatus.setTextColor(context.getColor(if(status == "dilindungi") R.color.status_red else R.color.status_green))
-        Glide.with(context).load(imageUrl).into(holder.itemPhoto)
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+        val (namaLokal, _, image, _, namaLatin, _, _, _, _, status) = listEncyclopedia[position]
+        holder.tvItemName.text = namaLokal!!.split(",").first()
+        holder.tvItemLatinName.text = namaLatin
+        if(status!!.split(" ").contains("dilindungi")){
+            holder.tvItemStatus.text = "dilindungi"
+            holder.tvItemStatus.setTextColor(context.getColor(R.color.status_red))
+        } else{
+            holder.tvItemStatus.text = "tidak dilindungi"
+            holder.tvItemStatus.setTextColor(context.getColor(R.color.status_green))
+        }
+        Glide.with(context).load(
+            image!!.split(",").first())
+            .into(holder.itemPhoto)
         holder.itemCard.setOnClickListener { onItemClickCallback.onItemClicked(listEncyclopedia[holder.adapterPosition]) }
     }
     override fun getItemCount(): Int = listEncyclopedia.size
@@ -47,6 +53,6 @@ class EncyclopediaAdapter(private val context: Context, private val listEncyclop
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: Turtle)
+        fun onItemClicked(data: FetchTurtlesResponseItem)
     }
 }

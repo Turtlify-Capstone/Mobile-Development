@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Turtlify</string>
 
-    <!--    Settings Screen-->
+<!--    Settings Screen-->
     <string name="language">Language</string>
     <string name="faq">FAQ &amp; Help</string>
     <string name="suggestion">Suggestion</string>
@@ -9,7 +9,7 @@
     <string name="share">Share this app</string>
     <string name="dark_mode">Dark Mode</string>
 
-    <!--    About Screen-->
+<!--    About Screen-->
     <string name="about_version">Turtlify v1.0</string>
     <string name="about_desc_app">Instantly Identify Turtles</string>
     <string name="our_mission_title">Our Mission</string>
@@ -19,7 +19,7 @@
     <string name="soc_media_twitter">Turtlify</string>
     <string name="soc_media_linkedin">Turtlify</string>
 
-    <!--    Suggestion Screen-->
+<!--    Suggestion Screen-->
     <string name="feedback_title">Give us feedback so we can get better</string>
     <string name="feedback_radio_title">Feedback type</string>
     <string name="edit_text_email_hint">Input your email</string>
@@ -30,7 +30,7 @@
     <string name="rb_feature">Feature Requests</string>
     <string name="rb_content">Content Suggestions</string>
 
-    <!--    FAQ Screen-->
+<!--    FAQ Screen-->
     <string name="message_title">Still need help? Contact our support team</string>
     <string name="submit_message">Send a message</string>
 
@@ -40,12 +40,14 @@
     <string name="title_camera">Camera</string>
     <string name="title_report_turtle">Report</string>
     <string name="title_history">History</string>
+    <string name="select">Select item</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <!--    Activity Title-->
-    <string name="empty_image_warning">Please take a picture or choose image from gallery first</string>
+<!--    Activity Title-->
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_location_selector">LocationSelectorActivity</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_suggestion">Suggestion</string>
     <string name="title_activity_about">About</string>
@@ -53,13 +55,13 @@
     <string name="title_activity_instruction">Instruction</string>
     <string name="title_activity_encyclopedia">Encyclopedia</string>
 
-    <!--    Home Screen-->
+<!--    Home Screen-->
     <string name="searchbar_hint">Search Turtles</string>
     <string name="encyclopedia">Encyclopedia</string>
     <string name="image_description">Turtle</string>
     <string name="news">News</string>
 
-    <!--    Instruction-->
+<!--    Instruction-->
     <string name="how_to_use_title">How to use Turtlify</string>
     <string name="how_to_use_content">To start identify a turtle simply take a picture of the turtle or select a picture of turtle from your “Photos” and Turtlify will identify it instantly</string>
     <string name="tips_title">Tips for Identifying</string>
@@ -72,4 +74,9 @@
     <string name="remember_1"> Don’t hurt any turtles</string>
     <string name="remember_2">Pay attention to surrounding environment and stay safe when taking pictures</string>
     <string name="remember_3">Don’t touch any unknown wild turtles, because some may be dangerous</string>
+    <string name="title_activity_news">News Detail</string>
+    <string name="edit_text_help_hint">Describe your help</string>
+
+<!--    Warning Text-->
+    <string name="empty_image_warning">Please take a picture or choose image from gallery first</string>
 </resources>

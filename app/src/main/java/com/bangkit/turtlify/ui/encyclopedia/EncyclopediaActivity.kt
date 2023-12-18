@@ -2,14 +2,13 @@ package com.bangkit.turtlify.ui.encyclopedia
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.turtlify.R
-import com.bangkit.turtlify.data.repository.Turtle
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.ActivityEncyclopediaBinding
 import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
 
@@ -40,21 +39,21 @@ class EncyclopediaActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.my_toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
-            title = "Turtles Encyclopedia"
+            title = getString(R.string.title_activity_encyclopedia)
             setDisplayHomeAsUpEnabled(true)
         }
     }
 
-    private fun showRecyclerList(turtles: List<Turtle>) {
+    private fun showRecyclerList(turtles: List<FetchTurtlesResponseItem>) {
         val rvEncyclopedia = binding.rvEncyclopedia // Access RecyclerView from binding
 
         val listHeroAdapter = EncyclopediaAdapter(this, turtles)
         rvEncyclopedia.adapter = listHeroAdapter
 
         listHeroAdapter.setOnItemClickCallback(object : EncyclopediaAdapter.OnItemClickCallback {
-            override fun onItemClicked(turtle: Turtle) {
+            override fun onItemClicked(data: FetchTurtlesResponseItem) {
                 val intent = Intent(this@EncyclopediaActivity, EncyclopediaDetailActivity::class.java)
-                intent.putExtra("turtleId", turtle.id)
+                intent.putExtra("turtleData", data)
                 startActivity(intent)
             }
         })

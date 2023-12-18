@@ -1,4 +1,4 @@
-package com.bangkit.turtlify.data.model
+package com.bangkit.turtlify.data.model.faq
 
 object FaqData {
     val faqList = listOf(
@@ -27,5 +27,4 @@ object FaqData {
             "Some features of Turtlify may require an internet connection, such as real-time reporting and updates. However, basic educational content can be accessed offline."
         )
     )
-
 }

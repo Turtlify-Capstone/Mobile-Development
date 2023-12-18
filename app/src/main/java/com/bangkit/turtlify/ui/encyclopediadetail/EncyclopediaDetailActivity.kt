@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.R
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.ActivityEncyclopediaBinding
 import com.bangkit.turtlify.databinding.ActivityEncyclopediaDetailBinding
 import com.bumptech.glide.Glide
@@ -21,36 +22,31 @@ class EncyclopediaDetailActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[EncyclopediaViewModel::class.java]
         setContentView(binding.root)
         setupView()
-        val turtleId = intent.getIntExtra("turtleId", 0)
 
-        if(turtleId !== null){
-            viewModel.getEncyclopediaDetail(turtleId)
-        }
+        val turtle: FetchTurtlesResponseItem? = intent.getParcelableExtra("turtleData")
 
-        viewModel.isLoading.observe(this){isLoading ->
-            showProgressCircular(isLoading)
-        }
+        Log.d("RECEIVED_TURTLE", turtle.toString())
 
-        viewModel.encyclopedia.observe(this){turtle ->
-            if(turtle !== null){
-                with(binding) {
-                    tvTurtleName.text = turtle.name
-                    tvTurtleLatinName.text = turtle.latinName
-                    tvTurtleStatus.text = turtle.status
-                    tvDescription.text = turtle.description
-                    tvFoodValue.text = turtle.food
-                    tvLifeValue.text = turtle.lifeExpectancy
+        if(turtle !== null){
+            with(binding) {
+                tvTurtleName.text = turtle.namaLokal!!.split(",").first()
+                tvTurtleLatinName.text = turtle.namaLatin
 
-                    Glide.with(this@EncyclopediaDetailActivity)
-                        .load(turtle.imageUrl).centerCrop()
-                        .into(turtleImage)
-
-                    tvTurtleStatus.setTextColor(
-                        resources.getColor(
-                            if(turtle.status == "dilindungi") R.color.status_red else R.color.status_green
-                        )
-                    )
+                if(turtle.statusKonversi!!.split(" ").contains("dilindungi")){
+                    tvTurtleStatus.text = "dilindungi"
+                    tvTurtleStatus.setTextColor(getColor(R.color.status_red))
+                } else{
+                    tvTurtleStatus.text = "tidak dilindungi"
+                    tvTurtleStatus.setTextColor(getColor(R.color.status_green))
                 }
+
+                tvDescription.text = turtle.description
+                tvFoodValue.text = "Not available"
+                tvLifeValue.text = "Not available"
+
+                Glide.with(this@EncyclopediaDetailActivity)
+                    .load(turtle.image!!.split(",").first()).centerCrop()
+                    .into(turtleImage)
             }
         }
 
@@ -63,10 +59,6 @@ class EncyclopediaDetailActivity : AppCompatActivity() {
             title = getString(R.string.title_activity_encyclopedia)
             setDisplayHomeAsUpEnabled(true)
         }
-    }
-
-    private fun showProgressCircular(isLoading: Boolean) {
-        binding.progressCircular.visibility = if(isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onSupportNavigateUp(): Boolean {
