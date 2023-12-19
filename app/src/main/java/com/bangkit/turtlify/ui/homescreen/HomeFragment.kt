@@ -9,22 +9,23 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.data.model.news.NewsData
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.FragmentHomeBinding
 import com.bangkit.turtlify.ui.encyclopedia.EncyclopediaActivity
 import com.bangkit.turtlify.ui.instruction.InstructionActivity
 import com.bangkit.turtlify.ui.news.NewsDetailActivity
 import com.bangkit.turtlify.ui.settings.SettingsActivity
+import com.bangkit.turtlify.utils.checkProtection
 import com.bumptech.glide.Glide
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private lateinit var viewModel: HomeViewModel
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -32,8 +33,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-
+        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -44,6 +44,11 @@ class HomeFragment : Fragment() {
 
         setupAction()
         addNewsCard()
+
+        viewModel.getTurtlesEncyclopedia()
+        viewModel.encyclopedia.observe(viewLifecycleOwner){turtles ->
+            populateEncyclopediaCard(turtles)
+        }
     }
 
     private fun setupAction() {
@@ -63,8 +68,24 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun addNewsCard() {
-        val cardView1 = binding.cardNews
+    fun populateEncyclopediaCard(turtles : List<FetchTurtlesResponseItem>){
+            with(binding) {
+                binding.encyclopediaName1.text = turtles[0].namaLokal
+                binding.encyclopediaStatus1.text = turtles[0].statusKonversi?.let { checkProtection(it) }
+                Glide.with(requireContext())
+                    .load(turtles[0].image!!.split(",").first()).fitCenter()
+                    .into(encyclopediaImage1)
+
+                binding.encyclopediaName2.text = turtles[1].namaLokal
+                binding.encyclopediaStatus2.text = turtles[1].statusKonversi?.let { checkProtection(it) }
+                Glide.with(requireContext())
+                    .load(turtles[1].image!!.split(",").first()).fitCenter()
+                    .into(encyclopediaImage2)
+        }
+    }
+
+    fun addNewsCard() {
+        val cardView1 =  binding.cardNews
         val imageView1 = cardView1.findViewById<ImageView>(R.id.newsImage)
         val titleTextView1 = cardView1.findViewById<TextView>(R.id.newsTitle)
         val sourceTextView1 = cardView1.findViewById<TextView>(R.id.newsSource)
