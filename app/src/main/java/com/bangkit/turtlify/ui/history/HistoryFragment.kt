@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.turtlify.data.database.TurtlifyDatabase
 import com.bangkit.turtlify.data.database.entity.Turtle
 import com.bangkit.turtlify.data.database.repository.TurtlifyRepository
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.FragmentHistoryBinding
 import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
 
 class HistoryFragment : Fragment() {
     private lateinit var viewModel: HistoryViewModel
     private lateinit var binding: FragmentHistoryBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,7 +62,18 @@ class HistoryFragment : Fragment() {
         listHeroAdapter.setOnItemClickCallback(object : HistoryAdapter.OnItemClickCallback {
             override fun onItemClicked(turtle: Turtle) {
                 val intent = Intent(requireContext(), EncyclopediaDetailActivity::class.java)
-                intent.putExtra("turtleData", turtle)
+                intent.putExtra("turtleData", FetchTurtlesResponseItem(
+                    turtle.namaLokal,
+                    turtle.persebaranHabitat,
+                    turtle.image,
+                    turtle.habitat,
+                    turtle.namaLatin,
+                    turtle.description,
+                    turtle.latitude,
+                    turtle.id,
+                    turtle.longitude,
+                    turtle.statusKonversi
+                ))
                 startActivity(intent)
             }
         })

@@ -4,12 +4,6 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-data class FetchTurtlesResponse(
-
-	@field:SerializedName("FetchTurtlesResponse")
-	val fetchTurtlesResponse: List<FetchTurtlesResponseItem>? = null
-)
-
 @Parcelize
 data class FetchTurtlesResponseItem(
 
@@ -35,7 +29,7 @@ data class FetchTurtlesResponseItem(
 	val latitude: String? = null,
 
 	@field:SerializedName("id")
-	val id: Int? = null,
+	val id: Int,
 
 	@field:SerializedName("Longitude")
 	val longitude: String? = null,
