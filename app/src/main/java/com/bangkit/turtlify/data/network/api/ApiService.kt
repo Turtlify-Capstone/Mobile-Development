@@ -2,7 +2,6 @@ package com.bangkit.turtlify.data.network.api
 
 import com.bangkit.turtlify.data.model.feedback.FeedbackData
 import com.bangkit.turtlify.data.model.suggestion.Suggestion
-import com.bangkit.turtlify.data.network.model.FetchTurtlesResponse
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.data.network.model.ImageUploadResponse
 import okhttp3.MultipartBody

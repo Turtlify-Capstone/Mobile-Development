@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.R
-import com.bangkit.turtlify.data.network.model.FetchTurtlesResponse
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.ActivityMapsBinding
 import com.bangkit.turtlify.ui.encyclopedia.EncyclopediaActivity
