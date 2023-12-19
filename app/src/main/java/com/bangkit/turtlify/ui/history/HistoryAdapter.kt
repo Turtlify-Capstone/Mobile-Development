@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.turtlify.R
-import com.bangkit.turtlify.data.database.repository.Turtle
+import com.bangkit.turtlify.data.database.entity.Turtle
 import com.bumptech.glide.Glide
 
 class HistoryAdapter(private val context: Context, private val listHistory: List<Turtle>) : RecyclerView.Adapter<HistoryAdapter.ListViewHolder>(){
@@ -25,12 +25,19 @@ class HistoryAdapter(private val context: Context, private val listHistory: List
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (name, latinName, status, imageUrl) = listHistory[position]
-        holder.tvItemName.text = name
-        holder.tvItemLatinName.text = latinName
-        holder.tvItemStatus.text = status
-        holder.tvItemStatus.setTextColor(context.getColor(if(status == "dilindungi") R.color.status_red else R.color.status_green))
-        Glide.with(context).load(imageUrl).into(holder.itemPhoto)
+        val (namaLokal, _, image, _, namaLatin, _, _, _, _, status) = listHistory[position]
+        holder.tvItemName.text = namaLokal!!.split(",").first()
+        holder.tvItemLatinName.text = namaLatin
+        if(status!!.split(" ").contains("dilindungi")){
+            holder.tvItemStatus.text = "dilindungi"
+            holder.tvItemStatus.setTextColor(context.getColor(R.color.red_text))
+        } else{
+            holder.tvItemStatus.text = "tidak dilindungi"
+            holder.tvItemStatus.setTextColor(context.getColor(R.color.green_text))
+        }
+        Glide.with(context).load(
+            image!!.split(",").first()
+        ).into(holder.itemPhoto)
         val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
         if (position == listHistory.size -1) {
                 params.bottomMargin = 80

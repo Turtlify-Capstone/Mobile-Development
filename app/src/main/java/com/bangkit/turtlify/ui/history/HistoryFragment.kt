@@ -9,52 +9,65 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bangkit.turtlify.R
-import com.bangkit.turtlify.data.database.repository.Turtle
+import com.bangkit.turtlify.data.database.TurtlifyDatabase
+import com.bangkit.turtlify.data.database.entity.Turtle
+import com.bangkit.turtlify.data.database.repository.TurtlifyRepository
 import com.bangkit.turtlify.databinding.FragmentHistoryBinding
+import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
 
 class HistoryFragment : Fragment() {
     private lateinit var viewModel: HistoryViewModel
     private lateinit var binding: FragmentHistoryBinding
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentHistoryBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // Initialize RecyclerView from the binding
-        val rvHistories = binding.rvHistories
-        rvHistories.layoutManager = LinearLayoutManager(requireContext())
-        viewModel = ViewModelProvider(this)[HistoryViewModel::class.java]
-
-        viewModel.getHistories()
-        viewModel.histories.observe(viewLifecycleOwner) { turtles ->
-            turtles?.let { showRecyclerList(it) }
-        }
-        viewModel.isLoading.observe(viewLifecycleOwner){
-            binding.progressCircular.visibility = if (it) View.VISIBLE else View.GONE
-        }
+        setupViewModel()
+        setupRecyclerView()
 
         return view
     }
 
-    private fun showRecyclerList(turtles: List<Turtle>) {
-        val rvHistories = binding.rvHistories // Access RecyclerView from binding
+    private fun setupViewModel() {
+        val turtlifyDao = TurtlifyDatabase.getDatabase(requireContext()).turtlifyDao()
+        val repository = TurtlifyRepository(turtlifyDao)
+        viewModel = ViewModelProvider(this, HistoryViewModelFactory(repository))[HistoryViewModel::class.java]
 
+        viewModel.getAllTurtles()
+        viewModel.histories.observe(viewLifecycleOwner) { turtles ->
+            showTurtlesList(turtles)
+        }
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            showLoading(isLoading)
+        }
+    }
+
+    private fun setupRecyclerView() {
+        val rvHistories = binding.rvHistories
+        rvHistories.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun showTurtlesList(turtles: List<Turtle>) {
+        val rvHistories = binding.rvHistories
         val listHeroAdapter = HistoryAdapter(requireContext(), turtles)
+
         rvHistories.adapter = listHeroAdapter
 
         listHeroAdapter.setOnItemClickCallback(object : HistoryAdapter.OnItemClickCallback {
             override fun onItemClicked(turtle: Turtle) {
-//                val intent = Intent(this@HistoryFragment, EnsiklopediaDetail::class.java)
-//                intent.putStringExtra("turtle_id", turtle_id)
-//                startActivity(intent)
+                val intent = Intent(requireContext(), EncyclopediaDetailActivity::class.java)
+                intent.putExtra("turtleData", turtle)
+                startActivity(intent)
             }
         })
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressCircular.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     companion object {
