@@ -1,10 +1,13 @@
 package com.bangkit.turtlify.ui.search
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.turtlify.data.model.search.SearchResponseItem
 import com.bangkit.turtlify.databinding.ActivitySearchBinding
 import com.bangkit.turtlify.utils.ViewModelFactory
 
@@ -28,6 +31,26 @@ class SearchActivity : AppCompatActivity() {
         binding.rvSearchTurtle.layoutManager = LinearLayoutManager(this)
         adapter = ListSearchAdapter(this)
         binding.rvSearchTurtle.adapter = adapter
+
+        adapter.setOnItemClickListener(object : ListSearchAdapter.OnItemClickListener {
+            override fun onItemClick(turtle: SearchResponseItem) {
+                val intent = Intent(this, EncyclopediaDetailActivity::class.java)
+                intent.putExtra("turtleData", FetchTurtlesResponseItem(
+                    turtle.namaLokal,
+                    turtle.persebaranHabitat,
+                    turtle.image,
+                    turtle.habitat,
+                    turtle.namaLatin,
+                    turtle.description,
+                    turtle.latitude,
+                    turtle.id,
+                    turtle.longitude,
+                    turtle.statusKonversi
+                ))
+                startActivity(intent)
+            }
+        })
+
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
             searchView
@@ -41,6 +64,9 @@ class SearchActivity : AppCompatActivity() {
         }
         searchViewModel.listTurtle.observe(this) { listSearch ->
             adapter.submitList(listSearch)
+        }
+        searchViewModel.isLoading.observe(this){isLoading ->
+            showLoading(isLoading)
         }
     }
 

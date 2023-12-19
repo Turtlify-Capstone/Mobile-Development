@@ -15,15 +15,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class Repository(private val apiService: ApiService) {
-
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-    private fun showLoading(isLoading: Boolean) {
-        _isLoading.value = isLoading
-    }
-
-    val listTurtle = MutableLiveData<List<SearchResponseItem>>()
-
     fun sendFeedback(feedbackData: FeedbackData, callback: (Boolean) -> Unit) {
         val call: Call<Void> = apiService.sendFeedback(feedbackData)
 
@@ -60,23 +51,25 @@ class Repository(private val apiService: ApiService) {
         })
     }
 
-    fun searchTurtle(query: String){
-        showLoading(true)
+    fun searchTurtle(
+        query: String,
+        onSuccess: (List<SearchResponseItem>) -> Unit,
+        onFailure: (String) -> Unit
+    ){
         ApiConfig.getApiService()
             .searchTurtle(query)
-            .enqueue(object : Callback<SearchResponse>{
+            .enqueue(object : Callback<List<SearchResponseItem>>{
                 override fun onResponse(
-                    call: Call<SearchResponse>,
-                    response: Response<SearchResponse>
+                    call: Call<List<SearchResponseItem>>,
+                    response: Response<List<SearchResponseItem>>
                 ) {
-                    showLoading(false)
                     if (response.isSuccessful){
-                        listTurtle.postValue(response.body()?.searchResponse as List<SearchResponseItem>?)
+                        response.body()?.let { onSuccess(it) }
                     }
                 }
 
-                override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                    showLoading(false)
+                override fun onFailure(call: Call<List<SearchResponseItem>>, t: Throwable) {
+                    onFailure(t.message.toString())
                     Log.d("Failure", t.message.toString())
                 }
             })

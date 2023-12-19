@@ -3,6 +3,7 @@ package com.bangkit.turtlify.data.network.api
 import com.bangkit.turtlify.data.model.feedback.FeedbackData
 import com.bangkit.turtlify.data.model.report.Report
 import com.bangkit.turtlify.data.model.search.SearchResponse
+import com.bangkit.turtlify.data.model.search.SearchResponseItem
 import com.bangkit.turtlify.data.model.suggestion.Suggestion
 import com.bangkit.turtlify.data.network.model.ImageUploadResponse
 import okhttp3.MultipartBody
@@ -31,5 +32,5 @@ interface ApiService {
     fun sendReport(@Body reportData: Report): Call<Void>
 
     @GET("search")
-    fun searchTurtle(@Query("nama_lokal") page: String): Call<SearchResponse>
+    fun searchTurtle(@Query("nama_lokal") page: String): Call<List<SearchResponseItem>>
 }

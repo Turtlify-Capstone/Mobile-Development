@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 
 class ListSearchAdapter(private val context: Context): ListAdapter<SearchResponseItem, ListSearchAdapter.ListViewHolder>(DIFF_CALLBACK){
 
-    private var itemClickListener: OnItemClickListener? = null
+    private lateinit var itemClickListener: OnItemClickListener
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         itemClickListener = listener
@@ -59,10 +59,11 @@ class ListSearchAdapter(private val context: Context): ListAdapter<SearchRespons
         Glide.with(context).load(
             turtle.image!!.split(",").first())
             .into(holder.itemPhoto)
+        holder.itemCard.setOnClickListener{itemClickListener.onItemClick(turtle)}
     }
 
     interface OnItemClickListener {
-        fun onItemClick(user: SearchResponseItem)
+        fun onItemClick(turtle: SearchResponseItem)
     }
 
 
