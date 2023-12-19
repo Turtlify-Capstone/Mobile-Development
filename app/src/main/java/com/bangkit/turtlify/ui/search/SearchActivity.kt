@@ -8,7 +8,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.turtlify.data.model.search.SearchResponseItem
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.ActivitySearchBinding
+import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
 import com.bangkit.turtlify.utils.ViewModelFactory
 
 class SearchActivity : AppCompatActivity() {
@@ -34,19 +36,22 @@ class SearchActivity : AppCompatActivity() {
 
         adapter.setOnItemClickListener(object : ListSearchAdapter.OnItemClickListener {
             override fun onItemClick(turtle: SearchResponseItem) {
-                val intent = Intent(this, EncyclopediaDetailActivity::class.java)
-                intent.putExtra("turtleData", FetchTurtlesResponseItem(
-                    turtle.namaLokal,
-                    turtle.persebaranHabitat,
-                    turtle.image,
-                    turtle.habitat,
-                    turtle.namaLatin,
-                    turtle.description,
-                    turtle.latitude,
-                    turtle.id,
-                    turtle.longitude,
-                    turtle.statusKonversi
-                ))
+                val intent = Intent(this@SearchActivity, EncyclopediaDetailActivity::class.java)
+                intent.putExtra("turtleData", turtle.id?.let {
+                    FetchTurtlesResponseItem(
+                        turtle.namaLokal,
+                        turtle.persebaranHabitat,
+                        turtle.image,
+                        turtle.habitat,
+                        turtle.namaLatin,
+                        turtle.description,
+                        turtle.latitude,
+                        it,
+                        turtle.longitude,
+                        turtle.statusKonversi
+                    )
+                }
+                )
                 startActivity(intent)
             }
         })
