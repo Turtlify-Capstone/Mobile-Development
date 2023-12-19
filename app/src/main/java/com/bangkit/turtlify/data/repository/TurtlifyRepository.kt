@@ -1,6 +1,7 @@
 package com.bangkit.turtlify.data.repository
 
 import android.util.Log
+import com.bangkit.turtlify.data.model.report.Report
 import com.bangkit.turtlify.data.network.api.ApiConfig
 import com.bangkit.turtlify.data.network.model.ImageUploadResponse
 import com.bangkit.turtlify.ui.report.FormData
@@ -11,6 +12,8 @@ import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.HttpException
 import java.io.File
 
@@ -83,5 +86,23 @@ class TurtlifyRepository {
             val errorResponse = Gson().fromJson(errorBody, ImageUploadResponse::class.java)
             errorResponse.message?.let { onError(it) }
         }
+    }
+
+    suspend fun sendReport(reportData: Report, callback: (Boolean) -> Unit) {
+        val call: Call<Void> = apiService.sendReport(reportData)
+
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: retrofit2.Response<Void>) {
+                if (response.isSuccessful) {
+                    callback(true)
+                } else {
+                    callback(false)
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                callback(false)
+            }
+        })
     }
 }

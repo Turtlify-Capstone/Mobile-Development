@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.data.repository.Repository
 import com.bangkit.turtlify.ui.faq.FaqViewModel
+import com.bangkit.turtlify.ui.search.SearchViewModel
 import com.bangkit.turtlify.ui.suggestion.SuggestionViewModel
 
 class ViewModelFactory(private val repository: Repository) :
@@ -19,6 +20,9 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(SuggestionViewModel::class.java) -> {
                 SuggestionViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
+                SearchViewModel(repository) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
