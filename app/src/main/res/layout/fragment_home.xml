@@ -112,7 +112,7 @@
                     android:layout_margin="16dp"
                     android:backgroundTint="#71FFFFFF"
                     android:contentDescription="@string/instruction_screen_button"
-                    android:src="@drawable/baseline_arrow_right_alt_24_white"
+                    android:src="@drawable/ic_arrow_right"
                     app:elevation="0dp"
                     app:fabCustomSize="48dp"
                     app:tint="@android:color/white"
