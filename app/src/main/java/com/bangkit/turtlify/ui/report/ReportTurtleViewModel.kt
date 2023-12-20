@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bangkit.turtlify.data.model.feedback.FeedbackData
+import com.bangkit.turtlify.data.model.report.Report
 import com.bangkit.turtlify.data.network.model.ImageUploadResponse
 import com.bangkit.turtlify.data.repository.TurtlifyRepository
 import com.bangkit.turtlify.ui.report.FormData
@@ -61,12 +63,13 @@ class ReportTurtleViewModel: ViewModel() {
         }
     }
     fun submitReportForm(
-        formData: FormData,
-        onSuccess: (String) -> Unit,
-        onError: (String) -> Unit
+        reportData: Report,
+        callback: (Boolean) -> Unit
     ){
         viewModelScope.launch {
-             turtlifyRepository.submitReportForm(formData, onSuccess, onError)
+             turtlifyRepository.sendReport(reportData) { success ->
+                 callback(success)
+             }
         }
     }
 }
