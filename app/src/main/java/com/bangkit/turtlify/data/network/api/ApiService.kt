@@ -31,7 +31,7 @@ interface ApiService {
     @GET("data")
     suspend fun fetchTurtles(): List<FetchTurtlesResponseItem>
 
-    @POST("FeedbackEmail")
+    @POST("Report")
     fun sendReport(@Body reportData: Report): Call<Void>
 
     @GET("search")
