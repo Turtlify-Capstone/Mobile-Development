@@ -43,8 +43,11 @@
             android:exported="false"
             android:label="@string/title_activity_location_selector" />
         <activity
-            android:exported="true"
-            android:name=".ui.homescreen.MainActivity">
+            android:name=".ui.encyclopediadetail.EncyclopediaDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.homescreen.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,6 +62,8 @@
         <activity android:name=".ui.identifier.IdentifierActivity"/>
         <activity android:name=".ui.instruction.InstructionActivity"/>
         <activity android:name=".ui.encyclopedia.EncyclopediaActivity"/>
+        <activity android:name=".ui.news.NewsDetailActivity"/>
+        <activity android:name=".ui.search.SearchActivity"/>
 
         <service android:name="com.google.android.gms.metadata.ModuleDependencies"
             android:enabled="false"

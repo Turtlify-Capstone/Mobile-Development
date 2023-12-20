@@ -1,9 +1,11 @@
 package com.bangkit.turtlify.ui.report
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.R
+import com.bangkit.turtlify.data.model.report.Report
 import com.bangkit.turtlify.databinding.FragmentReportTurtleBinding
 import com.bangkit.turtlify.ui.settings.SettingsActivity
 import com.bangkit.turtlify.ui.viemodels.ReportTurtleViewModel
@@ -68,6 +71,18 @@ class ReportTurtleFragment : Fragment() {
     private fun submitReportForm(){
         formData.reporterName = binding?.edReporterName?.text.toString()
         formData.reporterContact = binding?.edReporterContect?.text.toString()
+        val name = formData.reporterName
+        val email = formData.reporterContact
+        val location = binding?.edLocation?.text.toString()
+        val contactBksda = formData.contactId
+        val turtle = formData.turtleId
+
+        val message = "Nama: $name \n" +
+                "Tujuan BKSDA: $contactBksda \n" +
+                "$location \n" +
+                "Kura-kura yang ditemukan: $turtle"
+
+        val reportData = Report(email, message)
         if (formData.reporterName.isEmpty() ||
             formData.reporterContact.isEmpty() ||
             formData.turtleLocation.lat.isEmpty() ||
@@ -77,15 +92,16 @@ class ReportTurtleFragment : Fragment() {
             Toast.makeText(requireContext(), "Make sure all input's are filled", Toast.LENGTH_LONG).show()
             return
         } else {
-            viewModel.submitReportForm(formData,
-                onSuccess = {message ->
-                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            viewModel.submitReportForm(reportData) { success ->
+                if (success) {
                     clearForm()
-                },
-                onError = {message ->
-                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Report sent successfully ", Toast.LENGTH_SHORT).show()
+                    Log.d(ContentValues.TAG, "sendFeedback: Email Succesfully Send ")
+                } else {
+                    Toast.makeText(requireContext(), "Failed to send Report", Toast.LENGTH_SHORT).show()
+                    Log.d(ContentValues.TAG, "sendFeedback: Email Failed to Send ")
                 }
-            )
+            }
         }
     }
 

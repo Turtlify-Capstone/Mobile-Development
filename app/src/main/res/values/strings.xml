@@ -34,7 +34,7 @@
     <string name="message_title">Still need help? Contact our support team</string>
     <string name="submit_message">Send a message</string>
 
-      <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_maps">Maps</string>
     <string name="title_camera">Camera</string>
@@ -46,14 +46,15 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 <!--    Activity Title-->
+    <string name="title_activity_maps">MapsActivity</string>
     <string name="title_activity_location_selector">LocationSelectorActivity</string>
-
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_suggestion">Suggestion</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_faq">FAQ &amp; Help</string>
     <string name="title_activity_instruction">Instruction</string>
     <string name="title_activity_encyclopedia">Encyclopedia</string>
+    <string name="title_activity_encyclopedia_detail">Encyclopedia detail</string>
 
 <!--    Home Screen-->
     <string name="searchbar_hint">Search Turtles</string>
@@ -74,7 +75,15 @@
     <string name="remember_1"> Don’t hurt any turtles</string>
     <string name="remember_2">Pay attention to surrounding environment and stay safe when taking pictures</string>
     <string name="remember_3">Don’t touch any unknown wild turtles, because some may be dangerous</string>
+    <string name="title_activity_news">News Detail</string>
+    <string name="edit_text_help_hint">Describe your help</string>
 
 <!--    Warning Text-->
     <string name="empty_image_warning">Please take a picture or choose image from gallery first</string>
+
+<!--    Content Description-->
+    <string name="logo_image_description">Logo image</string>
+    <string name="setting_logo_description">setting logo</string>
+    <string name="instruction_screen_button">instruction screen button</string>
+
 </resources>
