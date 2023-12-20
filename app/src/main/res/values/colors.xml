@@ -14,4 +14,7 @@
     <color name="my_light_primary">#00BCD4</color>
     <color name="status_red">#DB1A00</color>
     <color name="status_green">#00B976</color>
+
+    <color name="text_heading">#1A1A1A</color>
+    <color name="text_heading_2">#575757</color>
 </resources>

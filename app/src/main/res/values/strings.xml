@@ -80,4 +80,7 @@
 
 <!--    Warning Text-->
     <string name="empty_image_warning">Please take a picture or choose image from gallery first</string>
+    <string name="logo_image_description">Logo image</string>
+    <string name="setting_logo_description">setting logo</string>
+    <string name="instruction_screen_button">instruction screen button</string>
 </resources>

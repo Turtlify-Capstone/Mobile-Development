@@ -11,24 +11,21 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
     private val repository = TurtlifyRepository()
-
-    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     private val _encyclopedia:MutableLiveData<List<FetchTurtlesResponseItem>> = MutableLiveData()
 
-    val isLoading: LiveData<Boolean> = _isLoading
     val encyclopedia: MutableLiveData<List<FetchTurtlesResponseItem>> = _encyclopedia
 
-    fun getTurtlesEncyclopedia(){
+    fun getTurtlesEncyclopedia(
+        onError: (String) -> Unit
+    ){
         viewModelScope.launch {
-            _isLoading.postValue(true)
             repository.fetchTurtles(
                 onSuccess = {turtles ->
                     _encyclopedia.postValue(turtles.take(2))
-                    _isLoading.postValue(false)
                 },
-                onError = {errorMsg ->
+                onError = { errorMsg ->
+                    onError("Error while retrieving encyclopedia data")
                     Log.e("ENCYCLOPEDIA_ERR", errorMsg)
-                    _isLoading.postValue(false)
                 }
             )
         }
