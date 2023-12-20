@@ -1,31 +1,32 @@
 package com.bangkit.turtlify.ui.homescreen
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.data.model.news.NewsData
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.FragmentHomeBinding
 import com.bangkit.turtlify.ui.encyclopedia.EncyclopediaActivity
+import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
 import com.bangkit.turtlify.ui.instruction.InstructionActivity
 import com.bangkit.turtlify.ui.news.NewsDetailActivity
 import com.bangkit.turtlify.ui.search.SearchActivity
 import com.bangkit.turtlify.ui.settings.SettingsActivity
+import com.bangkit.turtlify.utils.checkProtection
 import com.bumptech.glide.Glide
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private lateinit var viewModel: HomeViewModel
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -33,8 +34,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-
+        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -45,6 +45,15 @@ class HomeFragment : Fragment() {
 
         setupAction()
         addNewsCard()
+
+        viewModel.getTurtlesEncyclopedia(
+            onError = {errorMsg ->
+                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
+            }
+        )
+        viewModel.encyclopedia.observe(viewLifecycleOwner){turtles ->
+            populateEncyclopediaCard(turtles)
+        }
     }
 
     private fun setupAction() {
@@ -53,7 +62,7 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
-        binding.cardView.setOnClickListener {
+        binding.actionLearnBtn.setOnClickListener {
             val intent = Intent(activity, InstructionActivity::class.java)
             startActivity(intent)
         }
@@ -68,8 +77,38 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setEncyclopediaCardValues(
+        turtle: FetchTurtlesResponseItem,
+        nameTextView: TextView,
+        statusTextView: TextView,
+        imageView: ImageView,
+        cardView: View
+    ) {
+        nameTextView.text = turtle.namaLokal!!.split(", ").first()
+        statusTextView.text = turtle.statusKonversi?.let { checkProtection(it) }
+        statusTextView.setTextColor(resources.getColor(
+            if (checkProtection(turtle.statusKonversi!!) == "dilindungi") R.color.red_text else R.color.green_text
+        ))
+        Glide.with(requireContext())
+            .load(turtle.image!!.split(",").first())
+            .fitCenter()
+            .into(imageView)
+        cardView.setOnClickListener {
+            val intent = Intent(requireContext(), EncyclopediaDetailActivity::class.java)
+            intent.putExtra("turtleData", turtle)
+            startActivity(intent)
+        }
+    }
+
+    private fun populateEncyclopediaCard(turtles: List<FetchTurtlesResponseItem>) {
+        with(binding) {
+            setEncyclopediaCardValues(turtles[0], encyclopediaName1, encyclopediaStatus1, encyclopediaImage1, encyclopediaCard1)
+            setEncyclopediaCardValues(turtles[1], encyclopediaName2, encyclopediaStatus2, encyclopediaImage2, encyclopediaCard2)
+        }
+    }
+
     private fun addNewsCard() {
-        val cardView1 = binding.cardNews
+        val cardView1 =  binding.cardNews
         val imageView1 = cardView1.findViewById<ImageView>(R.id.newsImage)
         val titleTextView1 = cardView1.findViewById<TextView>(R.id.newsTitle)
         val sourceTextView1 = cardView1.findViewById<TextView>(R.id.newsSource)

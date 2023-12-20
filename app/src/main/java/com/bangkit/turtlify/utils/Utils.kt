@@ -147,3 +147,11 @@ fun isNetworkAvailable(context: Context): Boolean {
         return networkInfo.isConnected
     }
 }
+
+fun checkProtection(sentence: String): String {
+    return if (sentence.contains("tidak dilindungi", ignoreCase = true)) {
+        "tidak dilindungi"
+    } else {
+        "dilindungi"
+    }
+}

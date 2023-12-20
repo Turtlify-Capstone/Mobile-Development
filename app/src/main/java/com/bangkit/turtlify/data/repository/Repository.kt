@@ -10,11 +10,13 @@ import com.bangkit.turtlify.data.model.search.SearchResponseItem
 import com.bangkit.turtlify.data.model.suggestion.Suggestion
 import com.bangkit.turtlify.data.network.api.ApiConfig
 import com.bangkit.turtlify.data.network.api.ApiService
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class Repository(private val apiService: ApiService) {
+
     fun sendFeedback(feedbackData: FeedbackData, callback: (Boolean) -> Unit) {
         val call: Call<Void> = apiService.sendFeedback(feedbackData)
 
@@ -73,6 +75,18 @@ class Repository(private val apiService: ApiService) {
                     Log.d("Failure", t.message.toString())
                 }
             })
+    }
+
+    suspend fun fetchTurtles(
+        onSuccess: (List<FetchTurtlesResponseItem>) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        try {
+            val response = apiService.fetchTurtles()
+            onSuccess(response)
+        } catch (e: Exception) {
+            onError(e.message ?: "Unknown error occurred")
+        }
     }
 
     companion object {
