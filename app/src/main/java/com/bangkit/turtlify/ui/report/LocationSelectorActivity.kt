@@ -42,6 +42,7 @@ class LocationSelectorActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
+        mMap.mapType = GoogleMap.MAP_TYPE_HYBRID
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.uiSettings.isIndoorLevelPickerEnabled = true
         mMap.uiSettings.isCompassEnabled = true
@@ -57,7 +58,7 @@ class LocationSelectorActivity : AppCompatActivity(), OnMapReadyCallback {
             val markerOptions = MarkerOptions()
                 .position(latLng)
                 .snippet("Lat: ${latLng.latitude} Long: ${latLng.longitude}")
-                .icon(vectorToBitmap(R.drawable.baseline_location_on_24, Color.parseColor("#FF0000"), resources))
+                .icon(vectorToBitmap(R.drawable.turtle_marker, resources))
             val marker = mMap.addMarker(markerOptions)
             existingMarker = marker
 

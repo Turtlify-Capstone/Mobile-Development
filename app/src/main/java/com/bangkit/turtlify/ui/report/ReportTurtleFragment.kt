@@ -13,37 +13,33 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.R
+import com.bangkit.turtlify.data.model.report.FormData
 import com.bangkit.turtlify.data.model.report.Report
+import com.bangkit.turtlify.data.model.report.TurtleLocation
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.FragmentReportTurtleBinding
+import com.bangkit.turtlify.ui.maps.MapsViewModel
 import com.bangkit.turtlify.ui.settings.SettingsActivity
 import com.bangkit.turtlify.ui.viemodels.ReportTurtleViewModel
-import com.bangkit.turtlify.ui.viemodels.Turtle
+import com.bangkit.turtlify.utils.ViewModelFactory
+
 import com.bumptech.glide.Glide
-
-data class TurtleLocation(
-    var lat: String,
-    var long: String
-)
-data class FormData(
-    var reporterName: String,
-    var reporterContact: String,
-    var turtleLocation: TurtleLocation,
-    var contactId: String,
-    var turtleId: String
-)
-
 
 class ReportTurtleFragment : Fragment() {
     private var binding: FragmentReportTurtleBinding? = null
     private var contactList: MutableList<String> = mutableListOf()
-    private var turtleList: MutableList<Turtle> = mutableListOf()
+    private var turtleList: MutableList<FetchTurtlesResponseItem> = mutableListOf()
 
     private lateinit var contactsAdapter: ArrayAdapter<String>
     private lateinit var turtlesAdapter: TurtleAdapter
-    private lateinit var viewModel: ReportTurtleViewModel
+    private val viewModel by viewModels<ReportTurtleViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
     private var formData = FormData("", "", TurtleLocation("",""),"","")
 
     override fun onCreateView(
@@ -74,8 +70,8 @@ class ReportTurtleFragment : Fragment() {
         val name = formData.reporterName
         val email = formData.reporterContact
         val location = binding?.edLocation?.text.toString()
-        val contactBksda = formData.contactId
-        val turtle = formData.turtleId
+        val contactBksda = formData.contact
+        val turtle = formData.turtleName
 
         val message = "Nama: $name \n" +
                 "Tujuan BKSDA: $contactBksda \n" +
@@ -87,7 +83,7 @@ class ReportTurtleFragment : Fragment() {
             formData.reporterContact.isEmpty() ||
             formData.turtleLocation.lat.isEmpty() ||
             formData.turtleLocation.long.isEmpty() ||
-            formData.contactId.isEmpty() || formData.turtleId.isEmpty()
+            formData.contact.isEmpty() || formData.turtleName.isEmpty()
         ) {
             Toast.makeText(requireContext(), "Make sure all input's are filled", Toast.LENGTH_LONG).show()
             return
@@ -114,7 +110,6 @@ class ReportTurtleFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProvider(this)[ReportTurtleViewModel::class.java]
         contactsAdapter = ArrayAdapter(requireContext(), R.layout.contact_dropdown_item, contactList)
         contactsAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
         turtlesAdapter = TurtleAdapter(requireContext(), turtleList)
@@ -125,7 +120,7 @@ class ReportTurtleFragment : Fragment() {
         binding?.contactDropdownSelector?.setAdapter(contactsAdapter)
         binding?.contactDropdownSelector?.setOnItemClickListener{ _, _, position, _ ->
             val selectedItem = contactList[position]
-            formData.contactId = selectedItem
+            formData.contact = selectedItem
         }
     }
 
@@ -133,7 +128,8 @@ class ReportTurtleFragment : Fragment() {
         binding?.turtleDropdownSelector?.setAdapter(turtlesAdapter)
         binding?.turtleDropdownSelector?.setOnItemClickListener{ _, _,position, _ ->
             val selectedTurtle = turtlesAdapter.getItem(position)
-            formData.turtleId = selectedTurtle?.name ?: ""
+            val namaLokal = selectedTurtle!!.namaLokal ?: ""
+            formData.turtleName = namaLokal
         }
     }
 
@@ -148,8 +144,16 @@ class ReportTurtleFragment : Fragment() {
             turtleList.addAll(turtles)
             turtlesAdapter.notifyDataSetChanged()
         }
-        viewModel.fetchContacts()
-        viewModel.fetchTurtles()
+        viewModel.fetchContacts(
+            onError = {errorMsg ->
+                Toast.makeText(activity, errorMsg, Toast.LENGTH_LONG).show()
+            }
+        )
+        viewModel.fetchTurtles(
+            onError = {errorMsg ->
+                Toast.makeText(activity, errorMsg, Toast.LENGTH_LONG).show()
+            }
+        )
     }
 
     private fun setupLocationEditText() {
@@ -181,8 +185,8 @@ class ReportTurtleFragment : Fragment() {
     }
 }
 
-class TurtleAdapter(private val mContext: Context, mTurtleList: List<Turtle>) :
-    ArrayAdapter<Turtle?>(mContext, 0, mTurtleList) {
+class TurtleAdapter(private val mContext: Context, mTurtleList: List<FetchTurtlesResponseItem>) :
+    ArrayAdapter<FetchTurtlesResponseItem?>(mContext, 0, mTurtleList) {
     private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -199,8 +203,8 @@ class TurtleAdapter(private val mContext: Context, mTurtleList: List<Turtle>) :
         val turtle = getItem(position)
 
         if (turtle != null && textView != null && imageView != null) {
-            textView.text = turtle.name
-            Glide.with(mContext).load(turtle.image).centerCrop()
+            textView.text = turtle.namaLokal!!.split(", ").first()
+            Glide.with(mContext).load(turtle.image!!.split(",").first()).centerCrop()
                 .into(imageView)
         }
 
