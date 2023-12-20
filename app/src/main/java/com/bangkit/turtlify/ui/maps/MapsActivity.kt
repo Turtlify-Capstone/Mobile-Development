@@ -1,5 +1,6 @@
 package com.bangkit.turtlify.ui.maps
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -8,10 +9,15 @@ import android.graphics.Color
 import android.graphics.Color.pack
 import android.graphics.Paint
 import android.graphics.RectF
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
+import android.provider.Settings
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -22,7 +28,10 @@ import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.ActivityMapsBinding
 import com.bangkit.turtlify.ui.encyclopedia.EncyclopediaActivity
 import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
+import com.bangkit.turtlify.ui.faq.FaqViewModel
+import com.bangkit.turtlify.utils.ViewModelFactory
 import com.bangkit.turtlify.utils.addCircularBorderToBitmap
+import com.bangkit.turtlify.utils.checkProtection
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -41,7 +50,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private lateinit var viewModel: MapsViewModel
+    private val viewModel by viewModels<MapsViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
     private val boundsBuilder = LatLngBounds.Builder()
     private val selectedTurtle:MutableLiveData<FetchTurtlesResponseItem?> = MutableLiveData()
 
@@ -51,8 +62,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this)[MapsViewModel::class.java]
-        viewModel.fetchTurtles()
+        viewModel.fetchTurtles(
+            onError = { errorMsg ->
+                Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show()
+            }
+        )
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -123,7 +137,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun addMarkerToMap(turtle: FetchTurtlesResponseItem, latLng: LatLng) {
         Glide.with(this)
             .asBitmap()
-            .apply(RequestOptions().override(70, 70).circleCrop())
+            .apply(RequestOptions().override(60, 60).circleCrop())
             .load(turtle.image!!.split(", ").first())
             .into(object : SimpleTarget<Bitmap?>() {
                 override fun onResourceReady(
@@ -177,12 +191,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 with(binding) {
                     turtleCardName.text = turtle.namaLokal!!.split(",").first()
                     turtleCardLatinName.text = turtle.namaLatin
-                    if (turtle.statusKonversi!!.split(" ").contains("dilindungi")){
+                    if (checkProtection(turtle.statusKonversi!!) == "dilindungi"){
                         turtleCardStatus.text = "dilindungi"
-                        turtleCardStatus.setTextColor(resources.getColor(R.color.green_text))
+                        turtleCardStatus.setTextColor(resources.getColor(R.color.red_text))
                     } else {
                         turtleCardStatus.text = "tidak dilindungi"
-                        turtleCardStatus.setTextColor(resources.getColor(R.color.red_text))
+                        turtleCardStatus.setTextColor(resources.getColor(R.color.green_text))
                     }
                     Glide.with(this@MapsActivity)
                         .load(turtle.image!!.split(", ").first()).centerCrop()

@@ -3,6 +3,7 @@ package com.bangkit.turtlify.data.repository
 import com.bangkit.turtlify.data.model.feedback.FeedbackData
 import com.bangkit.turtlify.data.model.suggestion.Suggestion
 import com.bangkit.turtlify.data.network.api.ApiService
+import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,6 +44,18 @@ class Repository(private val apiService: ApiService) {
                 callback(false)
             }
         })
+    }
+
+    suspend fun fetchTurtles(
+        onSuccess: (List<FetchTurtlesResponseItem>) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        try {
+            val response = apiService.fetchTurtles()
+            onSuccess(response)
+        } catch (e: Exception) {
+            onError(e.message ?: "Unknown error occurred")
+        }
     }
 
     companion object {
