@@ -1,13 +1,12 @@
 package com.bangkit.turtlify.data.repository
 
 import android.util.Log
+import com.bangkit.turtlify.data.model.contact.Contact
+import com.bangkit.turtlify.data.model.report.FormData
 import com.bangkit.turtlify.data.model.report.Report
 import com.bangkit.turtlify.data.network.api.ApiConfig
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.data.network.model.ImageUploadResponse
-import com.bangkit.turtlify.ui.report.FormData
-import com.bangkit.turtlify.ui.viemodels.Contact
-import com.bangkit.turtlify.ui.viemodels.Turtle
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -42,34 +41,6 @@ class TurtlifyRepository {
         }
     }
 
-    fun getContacts() : List<Contact>{
-        val contacts: List<Contact> = try {
-            listOf(
-                Contact("BKSDA Jakarta Utara", "john@example.com"),
-                Contact("BKSDA Jakarta Selatan", "alice@example.com")
-            )
-        } catch (e: Exception) {
-            Log.d("ERRORNETWORKREPO", e.message.toString())
-            listOf()
-        }
-
-        return contacts
-    }
-
-    fun getTurtles(): List<Turtle>{
-        val turtles: List<Turtle> = try {
-            listOf(
-                Turtle("Moncong babi", "https://www.balisafarimarinepark.com/wp-content/uploads/2022/02/fosil-penyu-hidung-babi-yang-langka-ditemukan-di-australia-nmu-600x400.jpg?p=27766"),
-                Turtle("Galapagos", "https://asset-a.grid.id/crop/0x0:0x0/780x800/photo/bobofoto/original/11638_kura-kura-raksa-di-pulau-aldabra.jpg")
-            )
-        }catch (e: Exception){
-            Log.d("ERRORNETWORKREPO", e.message.toString())
-            listOf()
-        }
-
-        return turtles
-    }
-
     suspend fun fetchTurtles(
         onSuccess: (List<FetchTurtlesResponseItem>) -> Unit,
         onError: (String) -> Unit
@@ -98,23 +69,5 @@ class TurtlifyRepository {
             val errorResponse = Gson().fromJson(errorBody, ImageUploadResponse::class.java)
             errorResponse.message?.let { onError(it) }
         }
-    }
-
-    suspend fun sendReport(reportData: Report, callback: (Boolean) -> Unit) {
-        val call: Call<Void> = apiService.sendReport(reportData)
-
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: retrofit2.Response<Void>) {
-                if (response.isSuccessful) {
-                    callback(true)
-                } else {
-                    callback(false)
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                callback(false)
-            }
-        })
     }
 }

@@ -9,6 +9,7 @@ import com.bangkit.turtlify.ui.faq.FaqViewModel
 import com.bangkit.turtlify.ui.search.SearchViewModel
 import com.bangkit.turtlify.ui.maps.MapsViewModel
 import com.bangkit.turtlify.ui.suggestion.SuggestionViewModel
+import com.bangkit.turtlify.ui.viemodels.ReportTurtleViewModel
 
 class ViewModelFactory(private val repository: Repository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -27,6 +28,9 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
                 MapsViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(ReportTurtleViewModel::class.java) -> {
+                ReportTurtleViewModel(repository) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
