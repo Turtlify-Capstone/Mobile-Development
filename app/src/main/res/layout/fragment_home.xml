@@ -132,7 +132,7 @@
             android:layout_marginHorizontal="16dp"
             android:text="@string/encyclopedia"
             android:textSize="20sp"
-            android:textColor="@color/text_heading"
+            android:textColor="@color/text_heading_1"
             android:fontFamily="@font/poppins_semibold"
             app:drawableEndCompat="@drawable/ic_arrow_right"
             app:layout_constraintEnd_toEndOf="parent"
@@ -170,7 +170,7 @@
                     <ImageView
                         android:id="@+id/encyclopedia_image_1"
                         android:layout_width="match_parent"
-                        android:layout_height="140dp"
+                        android:layout_height="130dp"
                         android:contentDescription="@string/image_description"
                         android:scaleType="centerCrop"
                         tools:src="@tools:sample/avatars" />
@@ -217,7 +217,7 @@
                     <ImageView
                         android:id="@+id/encyclopedia_image_2"
                         android:layout_width="match_parent"
-                        android:layout_height="140dp"
+                        android:layout_height="130dp"
                         android:contentDescription="@string/image_description"
                         android:scaleType="centerCrop"
                         tools:src="@tools:sample/avatars" />
@@ -255,7 +255,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/news"
             android:textSize="20sp"
-            android:textColor="@color/text_heading"
+            android:textColor="@color/text_heading_1"
             android:fontFamily="@font/poppins_semibold"
             app:drawableEndCompat="@drawable/ic_arrow_right"
             app:layout_constraintEnd_toEndOf="parent"

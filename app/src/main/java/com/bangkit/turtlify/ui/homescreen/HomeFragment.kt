@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
 
         viewModel.getTurtlesEncyclopedia(
             onError = {errorMsg ->
-                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
             }
         )
         viewModel.encyclopedia.observe(viewLifecycleOwner){turtles ->
