@@ -22,7 +22,6 @@ class TurtlifyRepository(private val turtlifyDao: TurtlifyDao) {
         } catch (e: Exception) {
             onError(e.message ?: "Unknown error occurred")
         }
-
     }
 
     suspend fun getAllTurtles(

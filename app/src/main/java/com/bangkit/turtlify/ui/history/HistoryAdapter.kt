@@ -40,11 +40,11 @@ class HistoryAdapter(private val context: Context, private val listHistory: List
         ).into(holder.itemPhoto)
         val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
         if (position == listHistory.size -1) {
-                params.bottomMargin = 80
+                params.bottomMargin = 200
         } else {
             params.bottomMargin = 12
         }
-        holder.itemCard.setOnClickListener { onItemClickCallback.onItemClicked(listHistory[holder.adapterPosition]) }
+        holder.itemCard.setOnClickListener { onItemClickCallback.onItemClicked(listHistory[position]) }
     }
 
     override fun getItemCount(): Int = listHistory.size
