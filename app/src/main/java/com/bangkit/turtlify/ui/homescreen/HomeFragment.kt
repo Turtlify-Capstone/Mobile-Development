@@ -18,6 +18,7 @@ import com.bangkit.turtlify.ui.encyclopedia.EncyclopediaActivity
 import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
 import com.bangkit.turtlify.ui.instruction.InstructionActivity
 import com.bangkit.turtlify.ui.news.NewsDetailActivity
+import com.bangkit.turtlify.ui.search.SearchActivity
 import com.bangkit.turtlify.ui.settings.SettingsActivity
 import com.bangkit.turtlify.utils.checkProtection
 import com.bumptech.glide.Glide
@@ -68,6 +69,10 @@ class HomeFragment : Fragment() {
 
         binding.tvEncyclopediaTitle.setOnClickListener {
             val intent = Intent(activity, EncyclopediaActivity::class.java)
+            startActivity(intent)
+        }
+        binding.searchBar.setOnClickListener {
+            val intent = Intent(activity, SearchActivity::class.java)
             startActivity(intent)
         }
     }

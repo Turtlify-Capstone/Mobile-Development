@@ -63,6 +63,7 @@
         <activity android:name=".ui.instruction.InstructionActivity"/>
         <activity android:name=".ui.encyclopedia.EncyclopediaActivity"/>
         <activity android:name=".ui.news.NewsDetailActivity"/>
+        <activity android:name=".ui.search.SearchActivity"/>
 
         <service android:name="com.google.android.gms.metadata.ModuleDependencies"
             android:enabled="false"

@@ -1,7 +1,14 @@
 package com.bangkit.turtlify.data.repository
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.bangkit.turtlify.data.model.feedback.FeedbackData
+import com.bangkit.turtlify.data.model.report.Report
+import com.bangkit.turtlify.data.model.search.SearchResponse
+import com.bangkit.turtlify.data.model.search.SearchResponseItem
 import com.bangkit.turtlify.data.model.suggestion.Suggestion
+import com.bangkit.turtlify.data.network.api.ApiConfig
 import com.bangkit.turtlify.data.network.api.ApiService
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import retrofit2.Call
@@ -44,6 +51,30 @@ class Repository(private val apiService: ApiService) {
                 callback(false)
             }
         })
+    }
+
+    fun searchTurtle(
+        query: String,
+        onSuccess: (List<SearchResponseItem>) -> Unit,
+        onFailure: (String) -> Unit
+    ){
+        ApiConfig.getApiService()
+            .searchTurtle(query)
+            .enqueue(object : Callback<List<SearchResponseItem>>{
+                override fun onResponse(
+                    call: Call<List<SearchResponseItem>>,
+                    response: Response<List<SearchResponseItem>>
+                ) {
+                    if (response.isSuccessful){
+                        response.body()?.let { onSuccess(it) }
+                    }
+                }
+
+                override fun onFailure(call: Call<List<SearchResponseItem>>, t: Throwable) {
+                    onFailure(t.message.toString())
+                    Log.d("Failure", t.message.toString())
+                }
+            })
     }
 
     suspend fun fetchTurtles(
