@@ -16,7 +16,9 @@ class HistoryViewModel(private val repository: TurtlifyRepository) : ViewModel()
     val isLoading:LiveData<Boolean> = _isLoading
     val histories: MutableLiveData<List<Turtle>> = _histories
 
-    fun getAllTurtles() {
+    fun getAllTurtles(
+        onError : (String) -> Unit
+    ) {
         viewModelScope.launch {
             _isLoading.postValue(true)
             repository.getAllTurtles(
@@ -27,6 +29,7 @@ class HistoryViewModel(private val repository: TurtlifyRepository) : ViewModel()
                 onError = { errorMsg ->
                     Log.e("HISTORY_ERR", errorMsg)
                     _isLoading.postValue(false)
+                    onError("Error while retrieving history data")
                 }
             )
         }

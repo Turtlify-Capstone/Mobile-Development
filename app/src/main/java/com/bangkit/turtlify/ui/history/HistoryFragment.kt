@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.bangkit.turtlify.data.database.repository.TurtlifyRepository
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.FragmentHistoryBinding
 import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
+import com.bangkit.turtlify.ui.settings.SettingsActivity
 
 class HistoryFragment : Fragment() {
     private lateinit var viewModel: HistoryViewModel
@@ -30,6 +32,10 @@ class HistoryFragment : Fragment() {
 
         setupViewModel()
         setupRecyclerView()
+        binding.logoSettings.setOnClickListener{
+            val intent = Intent(activity, SettingsActivity::class.java)
+            startActivity(intent)
+        }
 
         return view
     }
@@ -39,7 +45,11 @@ class HistoryFragment : Fragment() {
         val repository = TurtlifyRepository(turtlifyDao)
         viewModel = ViewModelProvider(this, HistoryViewModelFactory(repository))[HistoryViewModel::class.java]
 
-        viewModel.getAllTurtles()
+        viewModel.getAllTurtles(
+            onError = {errorMsg ->
+                Toast.makeText(activity, errorMsg, Toast.LENGTH_LONG).show()
+            }
+        )
         viewModel.histories.observe(viewLifecycleOwner) { turtles ->
             showTurtlesList(turtles)
         }
