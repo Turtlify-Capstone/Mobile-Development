@@ -47,7 +47,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.homescreen.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Turtlify.MySplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

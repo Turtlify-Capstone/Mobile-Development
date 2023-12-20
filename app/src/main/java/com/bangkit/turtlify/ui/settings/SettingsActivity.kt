@@ -31,9 +31,6 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
-        binding.tvLanguage.setOnClickListener {
-            navigateToLanguageActivity()
-        }
         binding.tvFaq.setOnClickListener {
             navigateToFAQActivity()
         }
@@ -46,12 +43,7 @@ class SettingsActivity : AppCompatActivity() {
         binding.tvShare.setOnClickListener {
             shareAction()
         }
-
-
-    }
-
-    private fun navigateToLanguageActivity() {
-        true
+        
     }
 
     private fun navigateToFAQActivity() {
