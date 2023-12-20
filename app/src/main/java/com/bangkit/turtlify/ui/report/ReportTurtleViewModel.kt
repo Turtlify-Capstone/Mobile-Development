@@ -60,6 +60,7 @@ class ReportTurtleViewModel: ViewModel() {
             }
         }
     }
+
     fun submitReportForm(
         formData: FormData,
         onSuccess: (String) -> Unit,
