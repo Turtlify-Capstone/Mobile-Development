@@ -12,12 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="8dp"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:layout_constraintBottom_toTopOf="@+id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <!-- Logo Aplikasi -->
@@ -56,26 +55,26 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Lapor Ke BKSDA"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/subtitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:text="Isi formulir dibawah untuk segera melapor"
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/input_reporter_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_reporter_name"
@@ -83,16 +82,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:hint="Enter your name"
         android:textColorHint="#787878"
         app:boxCornerRadiusBottomEnd="6dp"
         app:boxCornerRadiusBottomStart="6dp"
         app:boxCornerRadiusTopEnd="6dp"
         app:boxCornerRadiusTopStart="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/input_reporter_contact"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_reporter_name"
@@ -109,16 +108,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:hint="Enter your email / phone number"
         android:textColorHint="#787878"
         app:boxCornerRadiusBottomEnd="6dp"
         app:boxCornerRadiusBottomStart="6dp"
         app:boxCornerRadiusTopEnd="6dp"
         app:boxCornerRadiusTopStart="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/input_location"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_reporter_name">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_reporter_contect"
@@ -135,16 +134,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:hint="select where you found the turtle"
         android:textColorHint="#787878"
         app:boxCornerRadiusBottomEnd="6dp"
         app:boxCornerRadiusBottomStart="6dp"
         app:boxCornerRadiusTopEnd="6dp"
         app:boxCornerRadiusTopStart="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/contact_dropdown"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_reporter_contact">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_location"
@@ -161,15 +160,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:hint="Select email to contact"
         app:boxCornerRadiusBottomEnd="6dp"
         app:boxCornerRadiusBottomStart="6dp"
         app:boxCornerRadiusTopEnd="6dp"
         app:boxCornerRadiusTopStart="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/turtle_dropdown"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_location">
 
         <AutoCompleteTextView
             android:id="@+id/contact_dropdown_selector"
@@ -185,15 +184,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="16dp"
         android:hint="Select turtle"
         app:boxCornerRadiusBottomEnd="6dp"
         app:boxCornerRadiusBottomStart="6dp"
         app:boxCornerRadiusTopEnd="6dp"
         app:boxCornerRadiusTopStart="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_submit_report"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contact_dropdown">
 
         <AutoCompleteTextView
             android:id="@+id/turtle_dropdown_selector"
@@ -208,13 +207,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="190dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/poppins_medium"
         android:paddingVertical="16dp"
         android:text="Send report"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/turtle_dropdown" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
