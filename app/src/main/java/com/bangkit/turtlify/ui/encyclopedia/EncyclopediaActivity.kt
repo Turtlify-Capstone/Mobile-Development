@@ -3,6 +3,7 @@ package com.bangkit.turtlify.ui.encyclopedia
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
@@ -11,10 +12,14 @@ import com.bangkit.turtlify.R
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.ActivityEncyclopediaBinding
 import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
+import com.bangkit.turtlify.ui.identifier.IdentifierViewModel
+import com.bangkit.turtlify.utils.ViewModelFactory
 
 class EncyclopediaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEncyclopediaBinding
-    private lateinit var viewModel: EncyclopediaViewModel
+    private val viewModel by viewModels<EncyclopediaViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEncyclopediaBinding.inflate(layoutInflater)
@@ -22,7 +27,6 @@ class EncyclopediaActivity : AppCompatActivity() {
 
         val rvEncyclopedia = binding.rvEncyclopedia
         rvEncyclopedia.layoutManager = LinearLayoutManager(this)
-        viewModel = ViewModelProvider(this)[EncyclopediaViewModel::class.java]
 
         viewModel.getTurtlesEncyclopedia()
         viewModel.encyclopedia.observe(this) { turtles ->
