@@ -36,10 +36,21 @@
     <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/Camera.png"></td>
     <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/EncyclopediaDetail.png" ></td>
   </tr>
-    <tr>
+  <tr>
     <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/Report.png"></td>
     <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/Maps.png"></td>
     <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/News.png" ></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/History.png"></td>
+    <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/Instruction.png"></td>
+    <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/Settings.png" ></td>
+  </tr>
+  </tr>
+    <tr>
+    <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/Suggestion.png"></td>
+    <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/FAQ.png"></td>
+    <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/About.png" ></td>
   </tr>
  </table>
 
