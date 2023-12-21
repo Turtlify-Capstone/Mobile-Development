@@ -7,9 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bangkit.turtlify.data.database.entity.Turtle
 import com.bangkit.turtlify.data.database.repository.TurtlifyRepository
+import com.bangkit.turtlify.data.repository.Repository
 import kotlinx.coroutines.launch
 
-class HistoryViewModel(private val repository: TurtlifyRepository) : ViewModel(){
+class HistoryViewModel(private val repository: Repository) : ViewModel(){
     private val _isLoading:MutableLiveData<Boolean> = MutableLiveData()
     private val _histories:MutableLiveData<List<Turtle>> = MutableLiveData()
 
