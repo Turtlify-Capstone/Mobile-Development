@@ -5,6 +5,7 @@ import com.bangkit.turtlify.data.model.report.Report
 import com.bangkit.turtlify.data.model.search.SearchResponseItem
 import com.bangkit.turtlify.data.model.suggestion.Suggestion
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
+import com.bangkit.turtlify.data.network.model.IdentifiyTurtleResponse
 import com.bangkit.turtlify.data.network.model.ImageUploadResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -17,10 +18,10 @@ import retrofit2.http.Query
 
 interface ApiService {
     @Multipart
-    @POST("upload")
+    @POST("UploadModel")
     suspend fun uploadImage(
         @Part file: MultipartBody.Part
-    ): ImageUploadResponse
+    ): IdentifiyTurtleResponse
 
     @POST("FeedbackEmail")
     fun sendFeedback(@Body feedbackData: FeedbackData): Call<Void>
