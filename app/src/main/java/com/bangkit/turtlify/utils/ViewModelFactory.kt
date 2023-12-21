@@ -8,6 +8,7 @@ import com.bangkit.turtlify.data.repository.Repository
 import com.bangkit.turtlify.ui.faq.FaqViewModel
 import com.bangkit.turtlify.ui.history.HistoryViewModel
 import com.bangkit.turtlify.ui.identifier.IdentifierViewModel
+import com.bangkit.turtlify.ui.homescreen.HomeViewModel
 import com.bangkit.turtlify.ui.search.SearchViewModel
 import com.bangkit.turtlify.ui.maps.MapsViewModel
 import com.bangkit.turtlify.ui.suggestion.SuggestionViewModel
@@ -33,6 +34,9 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(ReportTurtleViewModel::class.java) -> {
                 ReportTurtleViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
+                HomeViewModel(repository) as T
             }
             modelClass.isAssignableFrom(IdentifierViewModel::class.java) -> {
                 IdentifierViewModel(repository) as T
