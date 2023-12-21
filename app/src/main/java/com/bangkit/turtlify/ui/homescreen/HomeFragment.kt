@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.R
 import com.bangkit.turtlify.data.model.news.NewsData
@@ -16,17 +18,21 @@ import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.FragmentHomeBinding
 import com.bangkit.turtlify.ui.encyclopedia.EncyclopediaActivity
 import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
+import com.bangkit.turtlify.ui.faq.FaqViewModel
 import com.bangkit.turtlify.ui.instruction.InstructionActivity
 import com.bangkit.turtlify.ui.news.NewsDetailActivity
 import com.bangkit.turtlify.ui.search.SearchActivity
 import com.bangkit.turtlify.ui.settings.SettingsActivity
+import com.bangkit.turtlify.utils.ViewModelFactory
 import com.bangkit.turtlify.utils.checkProtection
 import com.bumptech.glide.Glide
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel by viewModels<HomeViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -34,7 +40,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         return binding.root
