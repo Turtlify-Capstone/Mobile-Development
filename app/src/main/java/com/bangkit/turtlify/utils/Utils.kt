@@ -90,20 +90,19 @@ fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
     )
 }
 
-fun vectorToBitmap(@DrawableRes id: Int, @ColorInt color: Int, resources: Resources): BitmapDescriptor {
+fun vectorToBitmap(@DrawableRes id: Int, resources: Resources): BitmapDescriptor {
     val vectorDrawable = ResourcesCompat.getDrawable(resources, id, null)
     if (vectorDrawable == null) {
         Log.e("BitmapHelper", "Resource not found")
         return BitmapDescriptorFactory.defaultMarker()
     }
     val bitmap = Bitmap.createBitmap(
-        vectorDrawable.intrinsicWidth,
-        vectorDrawable.intrinsicHeight,
+        50,
+        60,
         Bitmap.Config.ARGB_8888
     )
     val canvas = Canvas(bitmap)
     vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
-    DrawableCompat.setTint(vectorDrawable, color)
     vectorDrawable.draw(canvas)
     return BitmapDescriptorFactory.fromBitmap(bitmap)
 }
