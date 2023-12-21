@@ -32,6 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="visible"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/secondary"
         app:layout_constraintBottom_toBottomOf="@+id/webView"
         app:layout_constraintEnd_toEndOf="@+id/webView"
         app:layout_constraintStart_toStartOf="parent"
