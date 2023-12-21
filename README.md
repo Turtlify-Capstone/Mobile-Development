@@ -9,7 +9,7 @@
 
 - [Features](#features)
 - [Screenshots](#screenshots)
-- [Getting Started](#GettingStarted)
+- [Getting Started](#getting)
 - [Tech](#tech)
 - [Resources](#resources)
 
