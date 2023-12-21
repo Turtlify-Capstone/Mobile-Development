@@ -10,7 +10,7 @@
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Getting Started](#gettingStarted)
-- [Tech Stack](#techStack)
+- [Tech](#tech)
 - [Resources](#resources)
 
 ## Features
@@ -55,7 +55,7 @@
 - Set up an Android Emulator or connect a physical device.
 - Click "Run" (green play button) in Android Studio.
 
-## Tech Stack
+## Tech
 - **Programming Language**: Kotlin
 - **Architecture**: MVVM (Model-View-ViewModel)
 - **External Libraries**: Retrofit, Glide, ViewModel, LiveData, Repository, Room Database, CameraX, Geolocation, Material Design
