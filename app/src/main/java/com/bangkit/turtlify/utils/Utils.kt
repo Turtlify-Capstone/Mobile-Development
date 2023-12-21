@@ -35,7 +35,7 @@ import java.util.Locale
 
 
 private const val FILENAME_FORMAT = "yyyyMMdd_HHmmss"
-private const val MAXIMAL_SIZE = 2000000 //maksimal image upload
+private const val MAXIMAL_SIZE = 1500000 //maksimal image upload
 private val timeStamp: String = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(Date())
 fun createCustomTempFile(context: Context): File {
     val filesDir = context.externalCacheDir

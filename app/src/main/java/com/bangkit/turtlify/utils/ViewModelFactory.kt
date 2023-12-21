@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.data.repository.Repository
 import com.bangkit.turtlify.ui.faq.FaqViewModel
+import com.bangkit.turtlify.ui.history.HistoryViewModel
+import com.bangkit.turtlify.ui.identifier.IdentifierViewModel
 import com.bangkit.turtlify.ui.search.SearchViewModel
 import com.bangkit.turtlify.ui.maps.MapsViewModel
 import com.bangkit.turtlify.ui.suggestion.SuggestionViewModel
@@ -31,6 +33,12 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(ReportTurtleViewModel::class.java) -> {
                 ReportTurtleViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(IdentifierViewModel::class.java) -> {
+                IdentifierViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
+                HistoryViewModel(repository) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
