@@ -197,6 +197,8 @@ class IdentifierActivity : AppCompatActivity() {
                     showToast(errorMessage)
                     showLoading(false)
                     currentImageUri = null
+                    binding.previewImage.visibility = View.GONE
+                    binding.captureImage.setImageResource(R.drawable.baseline_control_camera_24)
                 }
             )
         } ?: showToast(getString(R.string.empty_image_warning))
