@@ -10,6 +10,7 @@
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Getting Started](#getting-started)
+- [Installation](#installation)
 - [Tech](#tech)
 - [Resources](#resources)
 
@@ -65,6 +66,13 @@
 3. Run on Emulator or Device:
 - Set up an Android Emulator or connect a physical device.
 - Click "Run" (green play button) in Android Studio.
+
+## Installation
+
+To start using this app, please download it at the following link [Turtlify](https://drive.google.com/drive/folders/14VPphUcCXfZ5YwwG4nDwLbGRrL8mlngO?usp=drive_link)
+
+To see our demo video of this application, please direct to this link [Demo Video](https://drive.google.com/drive/folders/1nrjfOhWwFcAlWJwJxHsnPL3g2XavbZBR?usp=sharing)
+
 
 ## Tech
 - **Programming Language**: Kotlin
