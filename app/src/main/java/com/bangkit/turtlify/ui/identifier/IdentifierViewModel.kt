@@ -1,15 +1,11 @@
 package com.bangkit.turtlify.ui.identifier
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bangkit.turtlify.data.database.entity.Turtle
 import com.bangkit.turtlify.data.network.model.AdditionalData
-import com.bangkit.turtlify.data.network.model.ImageUploadResponse
 import com.bangkit.turtlify.data.repository.Repository
-import com.bangkit.turtlify.data.repository.TurtlifyRepository
 import kotlinx.coroutines.launch
 import java.io.File
 

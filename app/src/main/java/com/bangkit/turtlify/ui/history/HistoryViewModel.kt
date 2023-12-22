@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bangkit.turtlify.data.database.entity.Turtle
-import com.bangkit.turtlify.data.database.repository.TurtlifyRepository
 import com.bangkit.turtlify.data.repository.Repository
 import kotlinx.coroutines.launch
 

@@ -1,13 +1,11 @@
 package com.bangkit.turtlify.ui.homescreen
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.data.repository.Repository
-import com.bangkit.turtlify.data.repository.TurtlifyRepository
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: Repository) : ViewModel() {

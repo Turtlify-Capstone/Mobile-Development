@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.turtlify.data.repository.Repository
+import com.bangkit.turtlify.ui.encyclopedia.EncyclopediaViewModel
 import com.bangkit.turtlify.ui.faq.FaqViewModel
 import com.bangkit.turtlify.ui.history.HistoryViewModel
 import com.bangkit.turtlify.ui.identifier.IdentifierViewModel
@@ -43,6 +44,9 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
                 HistoryViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(EncyclopediaViewModel::class.java) -> {
+                EncyclopediaViewModel(repository) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
