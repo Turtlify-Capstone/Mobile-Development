@@ -2,23 +2,17 @@ package com.bangkit.turtlify.ui.history
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bangkit.turtlify.data.database.TurtlifyDatabase
 import com.bangkit.turtlify.data.database.entity.Turtle
-import com.bangkit.turtlify.data.database.repository.TurtlifyRepository
 import com.bangkit.turtlify.data.network.model.FetchTurtlesResponseItem
 import com.bangkit.turtlify.databinding.FragmentHistoryBinding
 import com.bangkit.turtlify.ui.encyclopediadetail.EncyclopediaDetailActivity
-import com.bangkit.turtlify.ui.identifier.IdentifierViewModel
 import com.bangkit.turtlify.ui.settings.SettingsActivity
 import com.bangkit.turtlify.utils.ViewModelFactory
 
