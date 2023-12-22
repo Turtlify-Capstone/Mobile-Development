@@ -33,7 +33,7 @@
     <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/Search.png" ></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/Encyclopedia.png"></td>
+    <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/Encyclopedia1.png"></td>
     <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/Camera1.png"></td>
     <td><img src="https://github.com/Turtlify-Capstone/.github/blob/main/profile/screenshots/EncyclopediaDetail.png" ></td>
   </tr>
